@@ -99,7 +99,10 @@ if [ "$DRY" = 1 ]; then
   exit 0
 fi
 
+# The fork's own repository, from origin's address. Left to itself gh picks
+# the repository a fork came from, and would publish there.
+REPO="$(git remote get-url origin | sed -E 's#^(git@github\.com:|https://github\.com/)##; s#\.git$##')"
 git tag -a "$TAG" -m "$NAME $TAG"
 git push -q origin "$TAG"
-gh release create "$TAG" "$DMG" "$ZIP" --title "$NAME $TAG" --notes-file "$NOTES" --verify-tag
+gh release create "$TAG" "$DMG" "$ZIP" -R "$REPO" --title "$NAME $TAG" --notes-file "$NOTES" --verify-tag
 echo "released: $TAG"
