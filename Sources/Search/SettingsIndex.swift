@@ -338,6 +338,11 @@ enum SettingsIndex {
               title: "Spaces", detail: "Separate sets of tabs, switched with ⌃1–⌃9 or a swipe",
               more: "Each space can be signed in where the others are or start afresh. Mission Control's own ⌃1–⌃9, if you turned them on, take those keys first.",
               keys: ["spaces"], words: ["workspaces", "profiles"]),
+        // Manifold (SpaceStrip.swift).
+        .init(id: SpaceStrip.key, group: "spaces", icon: "circle.grid.3x3",
+              title: "Spaces at the foot of the column", detail: "Every space as an icon under the tabs, one click away, as in Arc and Zen",
+              more: "Right-click a space for its menu, where its profile is chosen too. Spaces of every profile are listed, so this also turns on Profiles in one window.",
+              keys: [SpaceStrip.key], words: ["arc", "zen", "space switcher", "space icons", "workspaces"], parent: "spaces"),
         .init(id: "profiles", group: "spaces", icon: "person.2",
               title: "Profiles", detail: "Spaces with their own sign-ins, history and bookmarks",
               more: "In windows of their own, unless Profiles in one window is on. Extensions, passwords and settings are shared.",
@@ -563,7 +568,7 @@ enum SettingsIndex {
         case "sidebar.foldIcons": return prefs.sidebar && !prefs.sideHides
         case "toolbar.left", "tabs.compact": return !prefs.sidebar
         case "profiles.oneWindow": return Profiles.shared.several
-        case "spaces.links": return prefs.usesSpaces
+        case "spaces.links", SpaceStrip.key: return prefs.usesSpaces
         case "tabs.frontBeside": return prefs.newTabPlace == .next
         case "newtab.recent": return prefs.floatingNewTab
         case "links.little.tabs": return prefs.littleLinks

@@ -1134,8 +1134,11 @@ private struct SideFoot: View {
             .padding(.bottom, 8)
         } else {
             HStack(spacing: 2) {
+                // Manifold: the spaces as a row of icons (SpaceStrip.swift).
+                if SpaceStrip.shows(browser) { SpaceStripView(browser: browser) } else {
                 if Profiles.shared.several { ProfileBadge(browser: browser) }
                 if prefs.usesSpaces { SpaceDot(browser: browser) }
+                }
                 ExtensionSlot(browser: browser, edge: .trailing, room: room)
                 BookmarkDoor(browser: browser, arrowEdge: .trailing)
                 // Only while a download is running, and a moment after.
@@ -1164,7 +1167,7 @@ private struct SideFoot: View {
         if prefs.usesSpaces { kept += 1 }
         if Profiles.shared.several { kept += 1 }
         if FetchDoor.shows(fetches, prefs, hanging: browser.downloadsHanging) { kept += 1 }
-        let free = width - 2 * 10 + 2 - CGFloat(kept) * door
+        let free = width - 2 * 10 + 2 - CGFloat(kept) * door - SpaceStrip.taken(browser)
         return max(0, Int((free / door).rounded(.down)))
     }
 }

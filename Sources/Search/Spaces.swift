@@ -766,7 +766,9 @@ enum SpaceMenu {
         menu.addItem(.separator())
         menu.addItem(item("New Space…") { browser.askForSpace() })
         // The profiles, once there is more than one (see Profiles.swift).
-        if Profiles.shared.several {
+        // Manifold: with the row of spaces, the space's own profile.
+        if Profiles.shared.several, SpaceStrip.shows(browser) { SpaceStrip.addProfileItems(to: menu, for: browser) }
+        else if Profiles.shared.several {
             menu.addItem(.separator())
             let profiles = NSMenu()
             for entry in ProfileMenu.items(for: browser) { profiles.addItem(entry) }

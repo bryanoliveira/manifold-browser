@@ -687,6 +687,7 @@ struct SettingsPanel: View {
                 .disabled(!arcHere)
                 .opacity(arcHere ? 1 : 0.4)
         case "spaces": Switch(on: $prefs.usesSpaces)
+        case SpaceStrip.key: Switch(on: Binding(get: { SpaceStrip.on }, set: { SpaceStrip.on = $0; prefs.objectWillChange.send() }))
         case "profiles": Pill("New Profile…") { ProfileMenu.askNew() }
         case "profiles.oneWindow": Switch(on: $prefs.profilesInOneWindow)
         case "spaces.links": Switch(on: $prefs.sendsLinksToSpaces)

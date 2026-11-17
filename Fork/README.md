@@ -17,6 +17,14 @@ and how to bring in upstream's updates.
   Upstream compares build times, and any build made here after upstream's release would hide that release. The
   Settings switch "Install updates on its own" has no effect in Manifold.
 
+- **Spaces at the foot of the column, as in Arc and Zen.** Every space is an icon in a row under the tabs, and
+  one click goes to it, whichever profile it is in. A right-click opens the space's menu. The row stands in for
+  the single space button and the profile badge. A space's profile is chosen in its own menu, under Profile, as in
+  Arc: choosing another moves the space there with its tabs, pins and folders. A profile's first space stays in
+  it. Listing every profile's spaces needs Settings › Profiles in one window, which the row turns on once. The row
+  has its own switch in Settings › Spaces & Pins, on by default. With the column showing icons only, the single
+  space button stays.
+
 ## Roadmap
 
 In order. Each item says what upstream already has or plans in the same area, so the fork doesn't build it twice.
@@ -44,10 +52,6 @@ Upstream's own list is [ROADMAP.md](../ROADMAP.md).
    - **"Search" in the app's own text.** About 160 strings in 47 files say Search, in menus, Settings and messages.
      Renaming them in place makes every upstream edit to one of those lines a merge conflict. How to avoid that is
      the design question for this part.
-4. **A space switcher at the foot of the column, as in Zen and Arc.** Each space is an icon in a row under the
-   tabs, and one click goes to it. Today the spaces are reached by swiping or scrolling through them, or through
-   the space's menu, which takes two clicks. The row has no profile button: a space's profile is chosen in the
-   space's own settings, as in Arc, and clicking a space of another profile goes there.
 
 ## How Zen maps onto Search
 
@@ -85,14 +89,18 @@ tests are `Tests/SearchTests/ImportZenTests.swift` and `Tests/zen_spaces.py`. Up
 - `Browser.swift`: in `takeArc`, profile names taken from the sidebar, and a space's open tabs added after its
   pinned ones;
 - `ImportPanel.swift`: three strings that said "Arc" now say the browser's name;
-- `Updater.swift`: two lines in `check` that hand a found release to `ManifoldUpdates.swift`.
+- `Updater.swift`: two lines in `check` that hand a found release to `ManifoldUpdates.swift`;
+- for the row of spaces (`SpaceStrip.swift`): the foot of the column in `Side.swift` (the row in place of the
+  space button and the badge, and the room it takes from pinned extensions), the space menu's Profile item in
+  `Spaces.swift`, its switch in `SettingsIndex.swift` and `Settings.swift`, and one line in `Bench.swift` that
+  hands the fork's own test actions to it.
 
 To bring in upstream's changes, when Manifold says upstream released a new version:
 
 ```
 git fetch upstream
 git merge upstream/main
-swift build && swift test --filter "ImportZen|ManifoldUpdates"
+swift build && swift test --filter "ImportZen|ManifoldUpdates" && python3 Tests/space_strip.py
 ```
 
 Then quit the browser and run `./build.sh`. It rebuilds `build/Search.app` in place, and the next launch is the new
