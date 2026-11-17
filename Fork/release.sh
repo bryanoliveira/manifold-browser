@@ -9,12 +9,8 @@
 # The tag is upstream's version plus a counter for this fork: v1.0.14-manifold.1,
 # then v1.0.14-manifold.2, until upstream's VERSION moves on.
 #
-# What changes from upstream's Search.app, and nothing else:
-#   - the name in the menu bar, the Dock, ⌘Tab and Finder is "Manifold"
-#     (a localised display name, the way build.sh names dev builds);
-#   - it is signed ad hoc, so it runs on the Mac that installs it and
-#     upstream's updater never swaps it for upstream's Search (Updater.swift
-#     refuses any swap under an app with no Team ID).
+# build.sh already names the app Manifold and draws its icon from
+# Fork/mark.svg. It is signed ad hoc, so it runs on the Mac that installs it.
 # The bundle id and the data folders stay Search's, so an existing Search
 # setup on this Mac carries over.
 set -euo pipefail
@@ -43,19 +39,6 @@ TAG="v$VERSION-manifold.$N"
 
 ./build.sh release
 APP="build/Search.app"
-
-# The name people see. The folder stays Search.app: macOS reads a bundle
-# whose folder differs from its CFBundleName as renamed by hand, and then
-# shows the folder's name instead of the localised one.
-mkdir -p "$APP/Contents/Resources/en.lproj"
-printf '"CFBundleDisplayName" = "%s";\n"CFBundleName" = "%s";\n' "$NAME" "$NAME" \
-  > "$APP/Contents/Resources/en.lproj/InfoPlist.strings"
-/usr/libexec/PlistBuddy -c "Delete :LSHasLocalizedDisplayName" "$APP/Contents/Info.plist" 2>/dev/null || true
-/usr/libexec/PlistBuddy -c "Add :LSHasLocalizedDisplayName bool true" "$APP/Contents/Info.plist"
-/usr/libexec/PlistBuddy -c "Set :NSHumanReadableCopyright $NAME, a fork of Search by Office Commun" "$APP/Contents/Info.plist"
-# The plist changed, so the signature has to be made again, as build.sh
-# signs when there is no Developer ID.
-codesign --force --deep --sign - "$APP"
 codesign --verify --deep --strict "$APP"
 
 OUT="build/manifold"

@@ -73,7 +73,9 @@ case "${SEARCH_DEV:-}" in
   *) echo "SEARCH_DEV is 0 or 1, not “$SEARCH_DEV”" >&2; exit 1 ;;
 esac
 [ "$STEP" != "app" ] && [ "$DEV" = 1 ] && { echo "a dev build doesn't go in a DMG" >&2; exit 1; }
-SHOWN="$NAME"
+# Manifold: the name people see, in place of Search (Fork/README.md).
+BRAND="Manifold"
+SHOWN="$BRAND"
 if [ "$DEV" = 1 ]; then
   # The feature: SEARCH_FEATURE, or the branch's last part, without the
   # six-character hash a worktree's name ends in (claude/split-view-4a6927
@@ -87,8 +89,8 @@ if [ "$DEV" = 1 ]; then
   # Only what's safe in a name and in InfoPlist.strings.
   FEATURE="$(printf '%s' "$FEATURE" | tr -cd 'A-Za-z0-9._-')"
   case "$FEATURE" in
-    ""|HEAD) SHOWN="$NAME Dev" ;;   # no branch to name it for
-    *) SHOWN="$NAME-$FEATURE" ;;
+    ""|HEAD) SHOWN="$BRAND Dev" ;;   # no branch to name it for
+    *) SHOWN="$BRAND-$FEATURE" ;;
   esac
 fi
 VERSION="$(tr -d '[:space:]' < VERSION)"
@@ -268,7 +270,7 @@ PLIST
 # ⌘Tab and in Finder, macOS shows the bundle's folder name otherwise. The
 # plain names above stay "Search", matching the folder, since a folder named
 # otherwise reads to macOS as renamed by hand, and then the folder wins.
-if [ "$DEV" = 1 ]; then
+if [ "$SHOWN" != "$NAME" ]; then
   mkdir -p "$APP/Contents/Resources/en.lproj"
   printf '"CFBundleDisplayName" = "%s";\n"CFBundleName" = "%s";\n' "$SHOWN" "$SHOWN" \
     > "$APP/Contents/Resources/en.lproj/InfoPlist.strings"

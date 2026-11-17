@@ -25,6 +25,11 @@ and how to bring in upstream's updates.
   has its own switch in Settings › Spaces & Pins, on by default. With the column showing icons only, the single
   space button stays.
 
+- **Manifold's name and icon.** `./build.sh` names the app Manifold (Manifold-<branch> for a dev build), in the
+  Dock, the menu bar, ⌘Tab and Finder. The icon is a lowercase m drawn as one ribbon, `Fork/mark.svg`, on upstream's
+  plate and in its colours, Dark and Tinted Dock styles included. The bundle id and the data folders stay
+  Search's, so your settings, tabs and sign-ins carry over.
+
 ## Roadmap
 
 In order. Each item says what upstream already has or plans in the same area, so the fork doesn't build it twice.
@@ -42,13 +47,9 @@ Upstream's own list is [ROADMAP.md](../ROADMAP.md).
    Apple's own iCloud service, which other apps can't use. What a Mac app can reach is Safari's files on this Mac,
    with Full Disk Access. Those hold Safari's bookmarks and a copy of the tabs open on your other devices. Which way
    this can work, and whether Safari keeps what another app writes there, is the first thing to find out.
-3. **Rename Search to Manifold, with an icon of its own.** Releases already show Manifold in the Dock, the menu bar
-   and Finder, but a plain `./build.sh` still says Search, and so does the app inside. The bundle id and the data
-   folder stay Search's, so your data carries over. Three parts, from cheapest to keep in step with upstream:
-   - **The icon.** `Icon/icon.swift` draws upstream's mark. A fork icon drawn by a file in `Fork/` and swapped in
-     after the build never conflicts with upstream.
-   - **The name `./build.sh` gives the app, and the mark drawn inside it.** Your daily build should say Manifold too.
-     The mark is `Logomark` in `Design.swift`, used by the welcome screens and Settings. Each is a small hook.
+3. **Search's name and mark inside the app.** The app is already called Manifold in the Dock, the menu bar, ⌘Tab
+   and Finder, and its icon is Manifold's (see "What the fork adds"). Two things still say Search:
+   - **The mark drawn inside the app**, `Logomark` in `Design.swift`, on the welcome screens and in Settings.
    - **"Search" in the app's own text.** About 160 strings in 47 files say Search, in menus, Settings and messages.
      Renaming them in place makes every upstream edit to one of those lines a merge conflict. How to avoid that is
      the design question for this part.
@@ -90,6 +91,8 @@ tests are `Tests/SearchTests/ImportZenTests.swift` and `Tests/zen_spaces.py`. Up
   pinned ones;
 - `ImportPanel.swift`: three strings that said "Arc" now say the browser's name;
 - `Updater.swift`: two lines in `check` that hand a found release to `ManifoldUpdates.swift`;
+- `build.sh`: the name people see, Manifold, in four lines; `Icon/icon.swift`: the mark from `Fork/mark.svg` when
+  it is there;
 - for the row of spaces (`SpaceStrip.swift`): the foot of the column in `Side.swift` (the row in place of the
   space button and the badge, and the room it takes from pinned extensions), the space menu's Profile item in
   `Spaces.swift`, its switch in `SettingsIndex.swift` and `Settings.swift`, and one line in `Bench.swift` that
