@@ -32,6 +32,9 @@ struct ArcSidebar: Equatable {
         var profile: String
         /// In Arc's order, folders kept as folders.
         var pinned: [Node]
+        /// Pages open but not pinned, which Arc leaves behind and Zen keeps
+        /// (ImportZen.swift): asleep at the end of the space's row.
+        var open: [Node] = []
     }
     /// The icons at the top, shared by every space of their profile.
     var favorites: [Item]
@@ -39,6 +42,9 @@ struct ArcSidebar: Equatable {
     /// for giving each space only its own profile's.
     var favoritesByProfile: [String: [Item]] = [:]
     var spaces: [Space]
+    /// The name each profile is shown by, where it isn't Arc's own
+    /// (ImportZen.swift); nil reads Arc's.
+    var profileNames: [String: String]? = nil
 
     var pinnedCount: Int { spaces.reduce(0) { $0 + Arc.count($1.pinned) } }
 }
@@ -276,14 +282,15 @@ enum Arc {
 }
 
 extension ImportSource {
-    /// Arc's spaces and pins, nil for any other browser.
+    /// Arc's spaces and pins, or Zen's (ImportZen.swift), nil for any other
+    /// browser.
     func arcSidebar(profile: String?) -> ArcSidebar? {
-        guard case .chromium(let source) = self, source.name == "Arc" else { return nil }
+        guard case .chromium(let source) = self, source.name == "Arc" else { return zenSidebar(profile: profile) }
         return Arc.sidebar(profile: profile)
     }
 
     func arcCounts(profile: String?) -> (spaces: Int, pinned: Int)? {
-        guard case .chromium(let source) = self, source.name == "Arc" else { return nil }
+        guard case .chromium(let source) = self, source.name == "Arc" else { return zenCounts(profile: profile) }
         return Arc.counts(profile: profile)
     }
 }

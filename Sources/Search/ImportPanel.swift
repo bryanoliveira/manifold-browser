@@ -359,7 +359,7 @@ struct ImportPanel: View {
                 if wantsArc, arc.pinned > 0, !browser.prefs.listsPins {
                     Rule()
                     Line("Keep them as pinned rows",
-                         "As in Arc: each pinned page a row with its name, under your pins. Turned on, it stays in Settings › Spaces & Pins › Pinned rows"
+                         "As in \(source.name): each pinned page a row with its name, under your pins. Turned on, it stays in Settings › Spaces & Pins › Pinned rows"
                          + (browser.prefs.sidebar ? "" : "; rows show with the tabs down the side")) {
                         Pill("Turn on pinned rows") {
                             withAnimation(Motion.glide) { browser.prefs.listsPins = true }
@@ -371,7 +371,7 @@ struct ImportPanel: View {
                 if wantsArc, arc.pinned > 0, browser.prefs.listsPins, !browser.prefs.pinFolders {
                     Rule()
                     Line("Keep its folders as folders",
-                         "As in Arc: each folder of pinned pages a folder of rows, nested as it was, rather than a tab group. Turned on, it stays in Settings › Spaces & Pins › Folders in pinned rows") {
+                         "As in \(source.name): each folder of pinned pages a folder of rows, nested as it was, rather than a tab group. Turned on, it stays in Settings › Spaces & Pins › Folders in pinned rows") {
                         Pill("Turn on folders") {
                             withAnimation(Motion.glide) { browser.prefs.pinFolders = true }
                         }
@@ -554,8 +554,8 @@ struct ImportPanel: View {
             let (spaces, pins, tabs) = browser.takeArc(sidebar, from: source, profile: profile)
             ImportRecords.note(source.name, spaces: spaces, pinned: pins + tabs)
             func count(_ n: Int, _ one: String) -> String { n == 1 ? "1 \(one)" : "\(n.formatted()) \(one)s" }
-            said[4] = Said(ok: true, text: spaces + pins + tabs == 0 ? "Arc's spaces and pins were all here already"
-                           : "\(count(spaces, "new space")), \(count(pins, "pin")), \(count(tabs, "pinned tab"))")
+            said[4] = Said(ok: true, text: spaces + pins + tabs == 0 ? "\(source.name)'s spaces and pins were all here already"
+                           : "\(count(spaces, "new space")), \(count(pins, "pin")), \(count(tabs, "tab"))")
         }
         // From what was read when the sheet counted, not read again here.
         if wantsTabs, bringsTabs(source), let session = preview?.session {

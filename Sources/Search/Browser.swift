@@ -3338,7 +3338,7 @@ final class Browser: NSObject, ObservableObject {
         // name, made if there is none, with its spaces in it, signed in
         // with that profile's own cookies.
         let others = Set(sidebar.spaces.map(\.profile)).subtracting(["Default"])
-        let named = others.isEmpty ? [:] : Arc.profileNames()
+        let named = sidebar.profileNames ?? (others.isEmpty ? [:] : Arc.profileNames())
         var profileFor: [String: UUID] = ["Default": profileID]
         for folder in others.sorted() {
             let name = named[folder] ?? folder
@@ -3428,7 +3428,11 @@ final class Browser: NSObject, ObservableObject {
                 PinFolders.set(target.id, PinTree.withoutEmpty(filed.folders, keeping: before, pins: defs), from: self)
             }
             Pins.set(target.id, defs, from: self)
-            let pages = folded ? [] : rows.isEmpty ? pinned : pinned.filter { $0.folder != nil }
+            var pages = folded ? [] : rows.isEmpty ? pinned : pinned.filter { $0.folder != nil }
+            // Open tabs, which Zen keeps and Arc doesn't, after the pinned ones.
+            let open = Browser.opened(target.space?.open ?? [])
+            pages += open
+            brought += open.map(\.item.url)
             if target.profile == profileID {
                 pinsChanged(in: target.id)
                 added += takeAsleep(pages, into: target.id)
