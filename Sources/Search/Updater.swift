@@ -187,6 +187,8 @@ final class Updater: ObservableObject {
             checking = false
             lastChecked = Date()
             Store.settings.set(Date(), forKey: lastKey)
+            // Manifold only tells (ManifoldUpdates.swift).
+            if ManifoldUpdates.onlyTells { done(ManifoldUpdates.tell(found, say: say)); return }
             guard let found, found.build > Updater.build, found.runsHere else {
                 stage = Updater.nothingNewer(after: stage)
                 done(nil)
