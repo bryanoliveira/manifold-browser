@@ -1,3 +1,5 @@
+> **This is Manifold, a fork of Search.** What the fork adds, how it is released and how it follows upstream: [Fork/README.md](Fork/README.md).
+
 # Search
 
 A small, fast, quiet web browser for the Mac, by [Office Commun](https://officecommun.com).
