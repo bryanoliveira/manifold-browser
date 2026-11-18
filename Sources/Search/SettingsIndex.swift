@@ -362,6 +362,11 @@ enum SettingsIndex {
               keys: [SpaceRoutes.key, SpaceRoutes.rulesKey],
               words: ["arc", "air traffic control", "route", "routing", "rules", "domain", "site", "open in space", "default space", "links from other apps"],
               parent: "spaces"),
+        // Manifold (SharedPins.swift).
+        .init(id: SharedPins.key, group: "pins", icon: "square.grid.2x2",
+              title: "Pins at the top, the same in every space", detail: "Each profile's, as Arc's favourites, and one page wherever they show",
+              more: "A page pinned as a square is shared with every space of its profile, and is one page across the spaces signed in alike. Only in This Space makes a square a row of that space. Turned on, the squares your spaces already have become one set.",
+              keys: [SharedPins.key], words: ["arc", "zen", "favourites", "favorites", "essentials", "shared pins", "every space"]),
         .init(id: "pins.keep", group: "pins", icon: "pin.circle",
               title: "Pins keep their site", detail: "Links elsewhere open over the pin, and ⌘W takes it back home",
               more: "As in Arc and Safari: a link from a pin to another site opens in a peek over it, and a pin closed with ⌘W, or left open when Search quits, comes back at the page it was pinned at.",

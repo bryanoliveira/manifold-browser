@@ -34,6 +34,16 @@ enum ForkBench {
                     "key": other.window?.isKeyWindow == true,
                 ]
             }]
+        case "pins":
+            // Every row this window holds, by space, with its pins' tabs.
+            var rows: [String: [String]] = [browser.space.name: browser.tabs.filter { $0.pin != nil }.map(Bench.short)]
+            for (id, row) in browser.parked {
+                rows[browser.spaces.first { $0.id == id }?.name ?? id.uuidString] = row.tabs.filter { $0.pin != nil }.map(Bench.short)
+            }
+            return ["rows": rows, "shared": Pins.shared(browser.profileID).map(\.home),
+                    "own": Dictionary(uniqueKeysWithValues: browser.spaces.map { space in
+                        (space.name, Pins.defs(space.id).map { $0.listed == true ? "row " + $0.home : $0.home })
+                    })]
         default:
             return nil
         }

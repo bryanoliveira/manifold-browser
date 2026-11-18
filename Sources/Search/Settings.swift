@@ -693,6 +693,8 @@ struct SettingsPanel: View {
         case "profiles": Pill("New Profile…") { ProfileMenu.askNew() }
         case "profiles.oneWindow": Switch(on: $prefs.profilesInOneWindow)
         case "spaces.links": Switch(on: $prefs.sendsLinksToSpaces)
+        case SharedPins.key:  // Manifold
+            Switch(on: Binding(get: { SharedPins.on }, set: { SharedPins.on = $0; prefs.objectWillChange.send() }))
         case "pins.keep": Switch(on: $prefs.pinsKeepSite)
         case "pins.list": Switch(on: $prefs.listsPins)
         case "pins.folders": Switch(on: $prefs.pinFolders)

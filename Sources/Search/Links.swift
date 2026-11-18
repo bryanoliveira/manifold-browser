@@ -161,6 +161,8 @@ final class Links: NSObject, NSApplicationDelegate {
             Launcher.shared.start()
             // Live folders fetched, and kept fresh (LiveFolders.swift).
             LiveFolders.start()
+            // Manifold: the pins at the top are each profile's (SharedPins.swift).
+            SharedPins.start()
         }
         let plain = notification.userInfo?[NSApplication.launchIsDefaultUserInfoKey] as? Bool ?? true
         guard !plain else { return }

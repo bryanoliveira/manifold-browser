@@ -569,7 +569,7 @@ extension Browser {
     /// case they are turned on again.
     func leaveSpaces() {
         enter(homeSpaceID)
-        for (_, row) in parked { for tab in row.tabs where !SharedPages.heldElsewhere(tab, by: self) { tab.close() } }
+        for (_, row) in parked { for tab in row.tabs where !SharedPages.heldElsewhere(tab, by: self) && !tabs.contains(where: { $0 === tab }) { tab.close() } }
         parked = [:]
     }
 }
@@ -964,7 +964,7 @@ extension Browser {
         guard let row = parked[id] else { return }
         if let floating, row.tabs.contains(where: { $0.id == floating }) { land(covering: false) }
         if let pictured, row.tabs.contains(where: { $0.id == pictured }) { unpicture() }
-        for tab in parked.removeValue(forKey: id)?.tabs ?? [] where !SharedPages.heldElsewhere(tab, by: self) { tab.close() }
+        for tab in parked.removeValue(forKey: id)?.tabs ?? [] where !SharedPages.heldElsewhere(tab, by: self) && !SharedPins.inOtherRow(tab, besides: id) { tab.close() }
     }
 
     /// A space deleted in another window: this window's row there goes.

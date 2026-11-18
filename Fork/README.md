@@ -24,6 +24,14 @@ and how to bring in upstream's updates.
   same. Opening, closing, moving and grouping tabs in one window happen in the other. Closing a window keeps its
   tabs with their space, as in Arc. A window that comes back to a space finds what was opened there meanwhile. Off,
   each window holds its own tabs, as in upstream.
+- **Pins at the top, the same in every space.** The squares at the top of the column are each profile's, as Arc's
+  favourites are: every space of a profile shows the same ones, and each is one page across the spaces that share
+  the profile's sign-ins, so Gmail pinned there loads once. A space with sign-ins of its own keeps a page of its
+  own for them. A page pinned as a square is shared at once; Only in This Space makes a square a row of that space,
+  since the pinned rows stay each space's own. Turned on, the squares your spaces already had become one set, a
+  page pinned in several spaces kept once: an import from Zen or Arc gives every space its own copy of the
+  favourites, and this merges them. On by default, in Settings › Spaces & Pins › Pins at the top, the same in every
+  space; it needs Spaces on.
 - **Spaces at the foot of the column, as in Arc and Zen.** Every space is an icon in a row under the tabs, and
   one click goes to it, whichever profile it is in. A right-click opens the space's menu. The row stands in for
   the single space button and the profile badge. A space's profile is chosen in its own menu, under Profile, as in
@@ -51,8 +59,6 @@ and how to bring in upstream's updates.
 
 Everything planned so far is built. Possible next steps, none started:
 
-- one page for a pin kept in every space, where those spaces share their sign-ins (today each space holds its own
-  copy of such a pin, as upstream has it);
 - Handoff to the iPhone, which Apple allows only for apps signed with a developer team.
 
 ## How Zen maps onto Search
@@ -98,6 +104,10 @@ tests are `Tests/SearchTests/ImportZenTests.swift` and `Tests/zen_spaces.py`. Up
   strings in `App.swift`, `WindowTitle.swift`, `Settings.swift` and `Welcome.swift`; one line in `Links.swift` for
   feedback, and two in `SettingsIndex.swift` that hide the install switch;
 - `build.sh`: one plist key, NSUserActivityTypes, for Handoff (`Handoff.swift`);
+- for pins at the top (`SharedPins.swift`): three lines in `reconcilePins` in `Browser.swift` (a shared pin's tab
+  taken from another space, and left open while another space holds it), the same check in the two lines of
+  `Spaces.swift` that put a space's row away, one line in `Links.swift` that starts it at launch, and its switch in
+  `SettingsIndex.swift` and `Settings.swift`;
 - for one page in every window (`SharedPages.swift`): in `Browser.swift`, the row's three setters tell it of a
   change, `restoreSession` and `loadRow` take the row another window has, `readRow` and `writeRow` use the space's
   file, and closing a window leaves tabs another window holds; in `Spaces.swift`, coming back to a space takes the
@@ -117,7 +127,8 @@ To bring in upstream's changes, when Manifold says upstream released a new versi
 git fetch upstream
 git merge upstream/main
 swift build && swift test --filter "ImportZen|ManifoldUpdates|Handoff" \
-  && ./build.sh && python3 Tests/space_strip.py && python3 Tests/shared_pages.py && python3 Tests/zen_spaces.py
+  && ./build.sh && python3 Tests/space_strip.py && python3 Tests/shared_pages.py && python3 Tests/shared_pins.py \
+  && python3 Tests/zen_spaces.py
 ```
 
 Then quit the browser and run `./build.sh`. It rebuilds `build/Search.app` in place, and the next launch is the new
@@ -125,6 +136,12 @@ version. Your tabs, settings and sign-ins live outside the app, so they stay. Up
 `build/Search.app`, each in a hidden test world of its own, so they never touch your browser's data.
 
 ## Limitations
+
+- With pins at the top shared, moving a square to another space, or dropping one into a space, leaves it where it
+  was: it is in every space already. A test run starts with the switch off, so upstream's own tests check
+  upstream's pins; the fork's tests turn it on.
+- Upstream's `Tests/pin_tiers.py` has one check that fails on upstream's own code too, "Clear reuses your empty tab
+  in a group".
 
 - One page in every window takes effect at the next launch, both when turned on and off.
 - A click on a page's picture brings its window to the front. The page takes the click after that.

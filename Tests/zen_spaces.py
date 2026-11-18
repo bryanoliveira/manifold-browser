@@ -102,7 +102,7 @@ def main():
     source = sys.argv[sys.argv.index("--from") + 1] if "--from" in sys.argv else None
     t = sv.T()
     try:
-        sv.setup(**{"pins.list": True, "pins.folders": True})
+        sv.setup(**{"pins.list": True, "pins.folders": True, "manifold.profilePins": True})
         zen(source)
         sv.launch()
         out = sv.cmd({"do": "import", "from": "Zen", "what": ["spaces"]})
@@ -128,7 +128,11 @@ def main():
         t.ok("Personal's spaces stay in the profile already here",
              names.get("Play", {}).get("profile") is None and names.get("Study", {}).get("profile") is None, spaces)
         homes = {s: {p["home"] for p in pins.get(names[s]["id"], [])} for s in names if s in ("Play", "Study", "HUG")}
-        t.ok("the Essential is pinned in every space", all("https://www.iana.org/" in h for h in homes.values()), homes)
+        # Pins at the top are each profile's (SharedPins.swift): the Essential
+        # is in the shared lists, of Personal and of Hug, and in no space's own.
+        shared = [p["home"] for key, v in pins.items() if key.startswith("shared") for p in v]
+        t.ok("the Essential is pinned for every space, once per profile",
+             shared.count("https://www.iana.org/") == 2 and all("https://www.iana.org/" not in h for h in homes.values()), (shared, homes))
         t.ok("Play's pinned pages are rows", {"https://example.com/", "https://example.org/", "https://www.rfc-editor.org/"} <= homes.get("Play", set()), homes)
         folders = read("pin-folders.json", {})
         t.ok("its folders are nested as in Zen", "Papers" in json.dumps(folders) and "Admin" in json.dumps(folders), folders)

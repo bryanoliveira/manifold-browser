@@ -3217,9 +3217,11 @@ final class Browser: NSObject, ObservableObject {
         let loose = row.filter { $0.pin == nil || $0.shy }
         var out: [Tab] = []
         for def in defs {
-            let found = pinned.first { $0.pinID == def.id }
+            var found = pinned.first { $0.pinID == def.id }
                 ?? pinned.first { $0.pinID == nil && $0.pin == def.letter && ($0.home?.absoluteString ?? "") == def.home }
                 ?? pinned.first { $0.pinID == nil }
+            // Manifold: a shared pin is one page in every space (SharedPins.swift).
+            if let one = SharedPins.one(for: def.id, shared: sharedIDs.contains(def.id), space: space, in: self) { found = one }
             let tab: Tab
             if let found {
                 pinned.removeAll { $0 === found }
@@ -3238,7 +3240,7 @@ final class Browser: NSObject, ObservableObject {
             tab.home = URL(string: def.home)
             out.append(tab)
         }
-        for gone in pinned { gone.close() }
+        for gone in pinned where !SharedPins.inOtherRow(gone, besides: space) { gone.close() }
         // In the order they were written, which already holds it; a file
         // put together by hand, or an import, may not. With pin folders on,
         // the rows in the order their folders draw them.
