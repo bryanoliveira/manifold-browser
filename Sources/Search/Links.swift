@@ -403,6 +403,8 @@ final class Links: NSObject, NSApplicationDelegate {
     /// Mail, that already knows what build this is. The person still reads
     /// it and presses send themselves — nothing here sends anything.
     static func writeFeedback() {
+        // Manifold: to the fork's own issues (Brand.swift).
+        if let page = Brand.feedback { NSWorkspace.shared.open(page); return }
         var text = URLComponents()
         text.scheme = "mailto"
         text.path = "hello@officecommun.com"

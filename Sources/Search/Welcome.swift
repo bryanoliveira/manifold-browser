@@ -65,7 +65,7 @@ struct WelcomePanel: View {
         VStack(spacing: 22) {
             Plate(size: 72)
             VStack(spacing: 10) {
-                Text("Search")
+                Text(Brand.name)
                     .font(.system(size: 34, weight: .medium))
                     .foregroundStyle(Palette.ink)
                 Text("A browser with nothing in the way. Four megabytes, the engine already in your Mac, and as little around the page as we could manage.")
@@ -168,12 +168,12 @@ struct WelcomePanel: View {
                     HStack(spacing: 8) {
                         Image(systemName: "checkmark")
                             .font(.system(size: 11, weight: .medium))
-                        Text("Search is the default browser")
+                        Text("\(Brand.name) is the default browser")
                     }
                     .font(.system(size: 13))
                     .foregroundStyle(Palette.ink)
                 } else {
-                    Big("Make Search the default", filled: true) {
+                    Big("Make \(Brand.name) the default", filled: true) {
                         asked = true
                         Links.becomeDefault { _ in isDefault = Links.isDefault }
                     }

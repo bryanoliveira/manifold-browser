@@ -428,7 +428,7 @@ struct SettingsPanel: View {
     private func detail(of item: SettingsItem) -> String {
         switch item.id {
         case "general.default":
-            return isDefault ? "Search is the default browser on this Mac" : item.detail
+            return isDefault ? "\(Brand.name) is the default browser on this Mac" : item.detail
         case "downloads.folder":
             return prefs.downloads.path.replacingOccurrences(of: NSHomeDirectory(), with: "~")
         case "sync": return sync.on ? sync.summary : item.detail
@@ -1004,10 +1004,10 @@ struct SettingsPanel: View {
                 .aspectRatio(Logomark.canvas.width / Logomark.canvas.height, contentMode: .fit)
                 .frame(height: 34)
             VStack(alignment: .leading, spacing: 3) {
-                Text("Search")
+                Text(Brand.name)
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(Palette.ink)
-                Text("by Office Commun · version \(Updater.version)")
+                Text("a fork of Search by Office Commun · version \(Updater.version)")
                     .font(.system(size: 12))
                     .foregroundStyle(Palette.muted)
             }

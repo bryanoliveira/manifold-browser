@@ -569,6 +569,7 @@ enum SettingsIndex {
         case "toolbar.left", "tabs.compact": return !prefs.sidebar
         case "profiles.oneWindow": return Profiles.shared.several
         case "spaces.links", SpaceStrip.key: return prefs.usesSpaces
+        case "updates.auto": return !ManifoldUpdates.onlyTells  // Manifold installs nothing
         case "tabs.frontBeside": return prefs.newTabPlace == .next
         case "newtab.recent": return prefs.floatingNewTab
         case "links.little.tabs": return prefs.littleLinks
@@ -588,6 +589,7 @@ enum SettingsIndex {
         case "sidebar.foldIcons": return "Only with the column down a side and not hidden until the edge"
         case "profiles.oneWindow": return "Only with more than one profile"
         case "spaces.links": return "Only with Spaces on"
+        case "updates.auto": return "Manifold tells you about upstream releases and installs nothing"
         case "sidebar.player": return "Only with titles in the sidebar"
         case "tabs.frontBeside": return "Only with New tab position on After current"
         case "newtab.recent": return "Only with the new tab in a floating field"

@@ -345,7 +345,7 @@ enum Motion {
 /// requirement, not the logo's.
 struct Logomark: Shape {
     /// The source's own canvas: Subtract.svg, 608 × 276, nothing outside it.
-    static let canvas = CGSize(width: 608, height: 276)
+    static let canvas = Brand.mark?.canvas ?? CGSize(width: 608, height: 276)  // Manifold: Brand.swift
 
     /// A pill with an S cut out of it. The same path as Icon/icon.swift and
     /// the website's mark.
@@ -392,7 +392,7 @@ struct Logomark: Shape {
             if !token.isEmpty, let v = Double(token) { numbers.append(CGFloat(v)) }
             token = ""
         }
-        for ch in data {
+        for ch in Brand.mark?.data ?? data {
             if "MLHVCZ".contains(ch) {
                 flush()
                 if let current { out.append((current, numbers)) }
