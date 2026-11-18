@@ -88,7 +88,7 @@ final class VaultAndUpdaterTests: XCTestCase {
         Updater.Release(
             version: "9.9", build: 9999,
             archive: URL(string: "https://officecommun.com/search/Search.zip")!,
-            dmg: URL(string: "https://officecommun.com/search/Search.dmg")!,
+            dmg: URL(string: "https://officecommun.com/search/Manifold.dmg")!,
             sha256: nil, notes: nil, minimumSystemVersion: minimum
         )
     }

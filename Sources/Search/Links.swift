@@ -33,7 +33,7 @@ final class Links: NSObject, NSApplicationDelegate {
         askingToQuit = true
         defer { askingToQuit = false }
         let alert = NSAlert()
-        alert.messageText = "Quit Search?"
+        alert.messageText = "Quit Manifold?"
         alert.informativeText = "Your windows and tabs will close."
         alert.addButton(withTitle: "Quit").keyEquivalent = ""
         let cancel = alert.addButton(withTitle: "Cancel")
@@ -411,7 +411,7 @@ final class Links: NSObject, NSApplicationDelegate {
         text.scheme = "mailto"
         text.path = "hello@officecommun.com"
         text.queryItems = [
-            URLQueryItem(name: "subject", value: "Search feedback — \(Updater.version) (\(Updater.build))"),
+            URLQueryItem(name: "subject", value: "Manifold feedback — \(Updater.version) (\(Updater.build))"),
             URLQueryItem(name: "body", value: "\n\n—\nSearch \(Updater.version), build \(Updater.build), macOS \(ProcessInfo.processInfo.operatingSystemVersionString)"),
         ]
         guard let url = text.url else { return }

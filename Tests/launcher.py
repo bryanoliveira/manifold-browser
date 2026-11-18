@@ -36,7 +36,7 @@ try:
     s = la()
     t.ok("on with no key chosen, no key is taken", s["wants"] is False, s)
     s = la("key", key="suggested")
-    t.ok("⇧⌘Space chosen: the key is wanted while Search is behind", s["key"] == "⇧⌘Space" and s["wants"] is True, s)
+    t.ok("⇧⌘Space chosen: the key is wanted while Manifold is behind", s["key"] == "⇧⌘Space" and s["wants"] is True, s)
     t.ok("a run the bench drives never asks macOS for it", s["registered"] is False, s)
 
     # An ordinary page, then a private one in front.

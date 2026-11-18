@@ -53,7 +53,7 @@ final class MediaKeys: NSObject, WKScriptMessageHandler {
       var played = new WeakSet(), held = new WeakSet(), watched = new WeakSet(), told = false;
       function plays(e) {
         // Only the element's own play counts: a page's synthetic 'play'
-        // event neither marks it as played nor unmutes what Search holds.
+        // event neither marks it as played nor unmutes what Manifold holds.
         if (!e.isTrusted) return;
         var el = e.target;
         played.add(el);

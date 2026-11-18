@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""The look and layout follow `defaults write` while Search runs
+"""The look and layout follow `defaults write` while Manifold runs
 (Preferences.followFile), in a hidden probe.
 
 Build first (`./build.sh`), then `python3 Tests/defaults_write.py`. It uses
 split_view.py's harness: started hidden, driven through ./bench's socket,
 everything removed afterwards.
 
-Each setting was read once, at launch: `defaults write` to a running Search
+Each setting was read once, at launch: `defaults write` to a running Manifold
 changed the file and nothing else, and Settings went on showing the old
 value until the next launch. Here the tabs' place (sidebar and
 sidebar.position) and the look are written from outside while the app runs,

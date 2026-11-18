@@ -75,7 +75,7 @@ try:
     t.ok("hidden: one small window, the browser's kept away", alone(st, f"{sv.BASE}/hidden"), st)
     sv.cmd({"do": "little", "what": "keep"}); time.sleep(1)
     st = windows()
-    t.ok("Open in Search brings them back with the page",
+    t.ok("Open in Manifold brings them back with the page",
          not st["keptAway"] and not any(w["away"] for w in st["windows"])
          and any(f"{sv.BASE}/hidden" in w["tabs"] for w in st["windows"]), st)
     sv.quit()

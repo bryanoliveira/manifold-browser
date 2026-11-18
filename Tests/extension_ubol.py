@@ -2,17 +2,17 @@
 """uBlock Origin Lite's rules don't blank pages (#709) — in a hidden probe.
 
 Build first (`./build.sh`), then `python3 Tests/extension_ubol.py`. Same
-harness as extension_rule_redirect.py: a copy of build/Search.app under a
+harness as extension_rule_redirect.py: a copy of build/Manifold.app under a
 bundle id of its own, in a world of its own, started hidden; the copy, its
 WebKit folders and the world are removed afterwards.
 
-Since Search grants "declarativeNetRequestWithHostAccess" to an extension
+Since Manifold grants "declarativeNetRequestWithHostAccess" to an extension
 asking for "declarativeNetRequest" (Norma's block page, 24 Oct 2026),
 WebKit carries out extensions' redirect rules. uBlock Origin Lite's strict
 blocking adds, at each worker start, session rules shaped like
 `regexFilter: "^https?://.*"` beside a `requestDomains` list. WebKit drops
 the list from a regexFilter rule, so the rule matched every page: ~30 s
-after launch every page went to uBOL's strictblock.html, which Search
+after launch every page went to uBOL's strictblock.html, which Manifold
 doesn't show (use_dynamic_url), and the tab came up blank.
 
 Checked with a local extension writing rules of the same shapes:
@@ -45,7 +45,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import split_view as sv  # noqa: E402
 
 sv.use("sec-ubol")
-BUNDLE = "com.officecommun.search.ubol"
+BUNDLE = "io.szero.manifold.ubol"
 UBOL = "ddkjiahejlhfcafbddmgiahcphecmpfh"
 work = Path(tempfile.mkdtemp(prefix="search-ubol-"))
 PORT = sv.srv.server_port
@@ -122,8 +122,8 @@ sv.srv.RequestHandlerClass = Pages
 
 
 def probe_copy():
-    app = work / "Search.app"
-    shutil.copytree(Path(sv.ROOT, "build", "Search.app"), app, symlinks=True)
+    app = work / "Manifold.app"
+    shutil.copytree(Path(sv.ROOT, "build", "Manifold.app"), app, symlinks=True)
     subprocess.run(["/usr/libexec/PlistBuddy", "-c", f"Set :CFBundleIdentifier {BUNDLE}", str(app / "Contents/Info.plist")], check=True)
     (app / "Contents/embedded.provisionprofile").unlink(missing_ok=True)
     subprocess.run(["codesign", "-f", "-s", "-", "--entitlements", str(Path(sv.ROOT, "Search.entitlements")), "--deep", str(app)],

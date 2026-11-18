@@ -34,7 +34,7 @@ extension's own fetch goes through ExtensionFetch.swift and carries them, as
 Chrome sends it; the frame is still WebKit's. WebKit's own fix
 landed on its main branch on 5 Oct 2026 (322707@main, "Give extension page
 subframes unpartitioned cookie access", then storage access on 7 Oct); no
-shipping macOS has it yet, and Search has no switch that reaches it. The
+shipping macOS has it yet, and Manifold has no switch that reaches it. The
 "Lax withheld" checks below hold that line for the frame: once a macOS
 carries the fix they fail, and the panel's frame should be signed in as in
 Chrome.

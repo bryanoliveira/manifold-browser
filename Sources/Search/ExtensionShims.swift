@@ -362,7 +362,7 @@ enum ExtensionShims {
             return "import \"\(spec.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\""))\";"
         }
         do {
-            try ("// Search: this page's module scripts, in their order (ExtensionShims.chainModules).\n" + imports.joined(separator: "\n") + "\n")
+            try ("// Manifold: this page's module scripts, in their order (ExtensionShims.chainModules).\n" + imports.joined(separator: "\n") + "\n")
                 .write(to: directory.appendingPathComponent(name), atomically: true, encoding: .utf8)
         } catch { return nil }
         // The first tag, its other attributes kept (blocking="render"), now
@@ -467,7 +467,7 @@ enum ExtensionShims {
       // A page's own world, where an extension's MAIN-world script runs with
       // this before it, has no extension APIs. Nothing to mend there, and
       // nothing may be left there for a page to see: Safari leaves nothing.
-      // (There, Search's passkey patch holds navigator.credentials.)
+      // (There, Manifold's passkey patch holds navigator.credentials.)
       const ours = (() => { try { return !!(chrome && chrome.runtime && chrome.runtime.id); } catch (e) { return false; } })();
       if (!ours || root.__searchShim) return;
       // Bitwarden's bundled TypeScript uses these as computed class keys
@@ -638,9 +638,9 @@ enum ExtensionShims {
         if (!callback) return promise;
         promise.then((value) => callback(value), (error) => withLastError(error, callback));
       };
-      // Where a tab is, as Search can find it: its place in its window's row
+      // Where a tab is, as Manifold can find it: its place in its window's row
       // and that window's frame. WebKit's window numbers mean nothing to
-      // Search, and windows.getAll gives the frames they go with.
+      // Manifold, and windows.getAll gives the frames they go with.
       const frames = async () => {
         const all = chrome.windows && typeof chrome.windows.getAll === "function"
           ? await Promise.resolve(chrome.windows.getAll()).catch(() => []) : [];
@@ -1104,7 +1104,7 @@ enum ExtensionShims {
         }
       }
       // WebKit gives a worker the user agent of the last web page that set
-      // one — Safari's, as Search's tabs send — not the Chrome one the
+      // one — Safari's, as Manifold's tabs send — not the Chrome one the
       // extension's pages have. Code that picks its path by it then takes
       // the Safari one: Bitwarden's asks a Safari app for a reply thousands
       // of times a second and floods the browser.
@@ -1319,7 +1319,7 @@ enum ExtensionShims {
             if (background) { sendResponse("pong"); return; }
             return true;
           }
-          // Search's own envelopes come from this extension only: another
+          // Manifold's own envelopes come from this extension only: another
           // extension (onMessageExternal) could otherwise speak as one of its
           // user scripts, or as a frame of its own.
           const fromHere = !!(sender && sender.id === runtime.id);
@@ -1911,7 +1911,7 @@ enum ExtensionShims {
         ["onCreated", "onChanged", "onErased", "onDeterminingFilename"]);
       // A blob URL made in an extension worker belongs to that worker. The
       // page WebKit uses to perform downloads cannot read it. Hand WebKit a
-      // data URL instead, then tell the extension when Search has saved it.
+      // data URL instead, then tell the extension when Manifold has saved it.
       // SingleFile waits for downloads.onChanged before ending its save task.
       if (chrome.downloads?.onChanged?.listeners) {
         const downloads = chrome.downloads;
@@ -1956,8 +1956,8 @@ enum ExtensionShims {
       }
       const ownPanel = !chrome.sidePanel;
       define("sidePanel", ["open", "close", "setOptions", "getOptions", "setPanelBehavior", "getPanelBehavior"]);
-      // A tab's own panel options, and which of Search's tabs that is: the
-      // button asks the tab in front, which has no number on Search's side.
+      // A tab's own panel options, and which of Manifold's tabs that is: the
+      // button asks the tab in front, which has no number on Manifold's side.
       // Told after the options themselves, so a sidePanel.open right after
       // setOptions still finds them.
       if (ownPanel && chrome.sidePanel && chrome.tabs && typeof chrome.tabs.get === "function") {
@@ -2024,7 +2024,7 @@ enum ExtensionShims {
         const update = () => { if (port) try { port.postMessage(hello()); } catch (e) {} };
         return { start, stop, update, isOpen: () => !!port };
       };
-      // Groups change in Search's hands, where no event reaches the
+      // Groups change in Manifold's hands, where no event reaches the
       // extension: while it listens, the browser says when they have changed
       // and what changed is told as Chrome tells it — and at once after the
       // extension changes one itself.
@@ -2108,7 +2108,7 @@ enum ExtensionShims {
       // it can't: a rejection, or lastError for a callback.
       const refuse = (what) => (...args) => {
         const callback = args.length && typeof args[args.length - 1] === "function" ? args.pop() : null;
-        const error = new Error(what + " isn't available in Search");
+        const error = new Error(what + " isn't available in Manifold");
         if (!callback) return Promise.reject(error);
         withLastError(error, callback);
       };
@@ -2182,15 +2182,15 @@ enum ExtensionShims {
       put2("omnibox", { setDefaultSuggestion: () => {}, onInputStarted: event(), onInputChanged: event(),
         onInputEntered: event(), onInputCancelled: event(), onDeleteSuggestion: event() });
       // Screen recording (see ExtensionCapture.swift). Chrome's picker is
-      // Search's question, then the Mac's own; the stream id it hands back is
-      // an id Search gives once, which getUserMedia in the extension's page
+      // Manifold's question, then the Mac's own; the stream id it hands back is
+      // an id Manifold gives once, which getUserMedia in the extension's page
       // turns into the stream. Defined only for an extension that asks for
       // it, as in Chrome: Awesome Screenshot records with getDisplayMedia
       // when there is no desktopCapture.
       const declares = (name) => [...(manifest.permissions || []), ...(manifest.optional_permissions || [])].includes(name);
       const recorder = !inContent && !worker && typeof navigator !== "undefined" && !!navigator.mediaDevices
         && typeof root.MediaDevices === "function";
-      // Only an extension's own page, at the top: Search checks that too.
+      // Only an extension's own page, at the top: Manifold checks that too.
       const captureChannel = (() => {
         try { return recorder && !embedded && window.top === window ? root.webkit.messageHandlers.searchCapture : null; } catch (e) { return null; }
       })();
@@ -2218,7 +2218,7 @@ enum ExtensionShims {
         const P = root.MediaDevices.prototype;
         const realGUM = P.getUserMedia, realGDM = P.getDisplayMedia;
         const held = new Map();
-        // Called by Search alone (ExtensionCapture.record). WebKit counts an
+        // Called by Manifold alone (ExtensionCapture.record). WebKit counts an
         // app's call as a click, and only until its first await, so the
         // page's own getDisplayMedia — kept before any of the extension's
         // code ran — is called at once.
@@ -2276,7 +2276,7 @@ enum ExtensionShims {
           // The sound of a screen or a tab alone: WebKit records none.
           if (desktopId(c.video) === null) {
             stream.getTracks().forEach((t) => t.stop());
-            throw new DOMException("Search can't record the sound of a screen or a tab", "NotFoundError");
+            throw new DOMException("Manifold can't record the sound of a screen or a tab", "NotFoundError");
           }
           const [track] = stream.getVideoTracks();
           const want = displayVideo(c.video);
@@ -2336,7 +2336,7 @@ enum ExtensionShims {
           DesktopCaptureSourceType: { SCREEN: "screen", WINDOW: "window", TAB: "tab", AUDIO: "audio" },
         });
       }
-      // A tab alone can't be recorded in Search: an extension that falls back
+      // A tab alone can't be recorded in Manifold: an extension that falls back
       // to the screen, as Loom does, records the window instead.
       if (declares("tabCapture")) {
         put2("tabCapture", { capture: refuse("tabCapture.capture"), getMediaStreamId: refuse("tabCapture.getMediaStreamId"),
@@ -2352,7 +2352,7 @@ enum ExtensionShims {
         deleteID: refuse("instanceID.deleteID"), deleteToken: refuse("instanceID.deleteToken"),
         getCreationTime: refuse("instanceID.getCreationTime"), onTokenRefresh: event() });
       // Rules that show a button on matching pages: every button is always
-      // shown in Search, so there is nothing for them to do.
+      // shown in Manifold, so there is nothing for them to do.
       const rules = () => ({ addRules: (r, cb) => { if (cb) cb(r || []); }, removeRules: (i, cb) => { if (cb) cb(); },
         getRules: (i, cb) => { const f = typeof i === "function" ? i : cb; if (f) f([]); } });
       put2("declarativeContent", { onPageChanged: rules(),
@@ -2419,7 +2419,7 @@ enum ExtensionShims {
         ContextType: { TAB: "TAB", POPUP: "POPUP", BACKGROUND: "BACKGROUND", OFFSCREEN_DOCUMENT: "OFFSCREEN_DOCUMENT",
           SIDE_PANEL: "SIDE_PANEL", DEVELOPER_TOOLS: "DEVELOPER_TOOLS" },
       });
-      // The popup Search shows is a page of its own, known to WebKit as a
+      // The popup Manifold shows is a page of its own, known to WebKit as a
       // tab with no place in the row (no index). Chrome has no current
       // tab in a popup, and lists it among the popup views; extensions lay
       // themselves out by that (Bitwarden, Proton Pass: or else they fill
@@ -2584,8 +2584,8 @@ enum ExtensionShims {
         AccessLevel: { TRUSTED_CONTEXTS: "TRUSTED_CONTEXTS", TRUSTED_AND_UNTRUSTED_CONTEXTS: "TRUSTED_AND_UNTRUSTED_CONTEXTS" },
       });
       // A page at the address of the extension's popup hears no events
-      // from WebKit: WebKit takes it for its own popup, and Search's popup
-      // is a view of Search's. The one that matters, storage.onChanged —
+      // from WebKit: WebKit takes it for its own popup, and Manifold's popup
+      // is a view of Manifold's. The one that matters, storage.onChanged —
       // Bitwarden learns a self-hosted server's address from it — is passed
       // on by the background, which does hear it, to such pages: the popup,
       // and the same page opened in a tab ("pop out"). They keep their
@@ -2636,7 +2636,7 @@ enum ExtensionShims {
         StyleOrigin: { AUTHOR: "AUTHOR", USER: "USER" },
       });
       // The popup an extension sets for its button, told to the browser too:
-      // Search opens a popup itself (see Extensions.press), and has to know
+      // Manifold opens a popup itself (see Extensions.press), and has to know
       // which page it is now.
       for (const name of ["action", "browserAction"]) {
         const a = chrome[name];
@@ -2648,7 +2648,7 @@ enum ExtensionShims {
           else tell(-1);
           return setPopup(details, callback);
         });
-        // Opened by Search, from the page the button has at the call. Left
+        // Opened by Manifold, from the page the button has at the call. Left
         // to WebKit, the promise settles before the browser is asked to show
         // anything, and an extension that unsets its popup straight after —
         // Inoreader sets it, opens it, then sets it back to none — has left
@@ -2706,7 +2706,7 @@ enum ExtensionShims {
 
       // Rules WebKit can't carry out — a header it doesn't know how to set,
       // say — are refused one by one, where Chrome would take them all. The
-      // rest still go in: one rule Search can't honour shouldn't cost an
+      // rest still go in: one rule Manifold can't honour shouldn't cost an
       // extension every other rule, or its startup.
       const dnr = chrome.declarativeNetRequest;
       // Before WebKit sees them, rules are put the way it takes them: a
@@ -2943,7 +2943,7 @@ enum ExtensionShims {
         });
       }
 
-      // Context menu entries for places Search has no menu for — the old
+      // Context menu entries for places Manifold has no menu for — the old
       // toolbar button contexts are the button's menu now, and there is no
       // app launcher at all.
       for (const name of ["contextMenus", "menus"]) {
@@ -3254,8 +3254,8 @@ enum ExtensionShims {
       }
 
       // Permissions. WebKit knows its own and throws on any other name,
-      // where Chrome answers false. The ones Search answers itself are
-      // Search's to grant: those a manifest names are granted, optional
+      // where Chrome answers false. The ones Manifold answers itself are
+      // Manifold's to grant: those a manifest names are granted, optional
       // ones are asked for.
       if (chrome.permissions) {
         const webkit = new Set(["activeTab", "alarms", "clipboardWrite", "contextMenus", "cookies", "declarativeNetRequest",
@@ -3268,7 +3268,7 @@ enum ExtensionShims {
           "clipboardRead", "geolocation", "userScripts"]);
         const manifest = (() => { try { return runtime.getManifest() || {}; } catch (e) { return {}; } })();
         const declared = new Set(manifest.permissions || []);
-        // A permission the manifest names that neither WebKit nor Search
+        // A permission the manifest names that neither WebKit nor Manifold
         // knows (pageCapture…) used to fail the whole request with no
         // question asked. Chrome would grant it with the rest, so it is
         // left out of the question instead; only names the manifest never
@@ -3314,7 +3314,7 @@ enum ExtensionShims {
           // Already given (<all_urls> as *://*/*): nothing to ask again.
           if (await Promise.resolve(contains({ permissions: theirs, origins: websites(origins) })).catch(() => false)) return true;
           // Asked from a click on the extension's button: when filling in
-          // the tab it was given (mend) cost WebKit the click, Search
+          // the tab it was given (mend) cost WebKit the click, Manifold
           // knows it was one and asks the same question.
           return Promise.resolve(request({ permissions: theirs, origins })).catch((e) =>
             /user gesture/i.test(String(e && e.message)) ? native("permissions.afterClick", [theirs, origins]) : Promise.reject(e));
@@ -3351,7 +3351,7 @@ enum ExtensionShims {
       // than the extension's own onMessage. The list lives with the browser,
       // and is registered again whenever the worker starts.
       const scripting = chrome.scripting;
-      // What an extension registers for a page's own world has Search's
+      // What an extension registers for a page's own world has Manifold's
       // passkey patch before it, as its manifest's do (see prepare): a
       // password manager keeps a reference to navigator.credentials as it
       // finds it, and falls back to that. Isolated registrations need the
@@ -4536,7 +4536,7 @@ enum ExtensionShims {
         case "downloads.erase":
             return []
         case "downloads.pause", "downloads.resume", "downloads.cancel", "downloads.removeFile", "downloads.getFileIcon":
-            throw Unsupported(what: "\(api) isn't available in Search yet")
+            throw Unsupported(what: "\(api) isn't available in Manifold yet")
 
         // MARK: side panel — the window's, beside the page (SidePanel.swift)
         case "sidePanel.setOptions":
@@ -5005,7 +5005,7 @@ enum ExtensionShims {
             if let old = awake[id] { IOPMAssertionRelease(old) }
             var assertion: IOPMAssertionID = 0
             let kind = (display ? kIOPMAssertionTypePreventUserIdleDisplaySleep : kIOPMAssertionTypePreventUserIdleSystemSleep) as CFString
-            if IOPMAssertionCreateWithName(kind, IOPMAssertionLevel(kIOPMAssertionLevelOn), "An extension in Search" as CFString, &assertion) == kIOReturnSuccess {
+            if IOPMAssertionCreateWithName(kind, IOPMAssertionLevel(kIOPMAssertionLevelOn), "An extension in Manifold" as CFString, &assertion) == kIOReturnSuccess {
                 awake[id] = assertion
             }
             return nil
@@ -5014,7 +5014,7 @@ enum ExtensionShims {
             return nil
         case "power.reportActivity":
             var assertion: IOPMAssertionID = 0
-            IOPMAssertionDeclareUserActivity("An extension in Search" as CFString, kIOPMUserActiveLocal, &assertion)
+            IOPMAssertionDeclareUserActivity("An extension in Manifold" as CFString, kIOPMUserActiveLocal, &assertion)
             return nil
 
         // MARK: browsing data
@@ -5068,7 +5068,7 @@ enum ExtensionShims {
         case "readingList.query":
             return []
         case "readingList.addEntry", "readingList.removeEntry", "readingList.updateEntry":
-            throw Unsupported(what: "Search has no reading list")
+            throw Unsupported(what: "Manifold has no reading list")
 
         // MARK: system
         case "system.cpu.getInfo":
@@ -5125,7 +5125,7 @@ enum ExtensionShims {
             if let collapsed = props["collapsed"] as? Bool, collapsed != group.collapsed { browser.toggleTabGroup(group.id) }
             return chromeGroup(browser.tabGroups.first { $0.id == group.id } ?? group)
         case "tabGroups.move":
-            throw Unsupported(what: "Search can't move a tab group for an extension")
+            throw Unsupported(what: "Manifold can't move a tab group for an extension")
         case "tabs.group":
             let places: [Any] = first as? [Any] ?? []
             let tabs = places.compactMap { located($0, context: context, owner: owner) }
@@ -5176,7 +5176,7 @@ enum ExtensionShims {
             throw Unsupported(what: "getAuthToken needs a Google account signed into Chrome; this extension would need launchWebAuthFlow instead")
 
         default:
-            throw Unsupported(what: "\(api) isn't available in Search")
+            throw Unsupported(what: "\(api) isn't available in Manifold")
         }
     }
 
@@ -5520,7 +5520,7 @@ enum ExtensionAuth {
         static let longest: TimeInterval = 60
 
         static func failure(_ why: String) -> Error {
-            NSError(domain: "Search", code: 1, userInfo: [NSLocalizedDescriptionKey: why])
+            NSError(domain: "Manifold", code: 1, userInfo: [NSLocalizedDescriptionKey: why])
         }
 
         let extensionID: String

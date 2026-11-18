@@ -2227,8 +2227,8 @@ final class MiddleRelay: NSObject, WKScriptMessageHandler {
       }, true);
       // A page on this Mac linking to another file. WebKit lets a file page
       // read only its own folder, and drops a click on a link out of it
-      // before Search is asked: the page stayed where it was, and only the
-      // address typed in opened it. Search opens it the way it opens a typed
+      // before Manifold is asked: the page stayed where it was, and only the
+      // address typed in opened it. Manifold opens it the way it opens a typed
       // one. A plain click the page hasn't claimed, to a file, not a jump
       // within the page and not a download.
       if (location.protocol === 'file:') window.addEventListener('click', function (e) {

@@ -97,7 +97,7 @@ final class Bench {
         private static var query: [String: Any] {
             [kSecClass as String: kSecClassGenericPassword,
              kSecUseDataProtectionKeychain as String: true,
-             kSecAttrService as String: "com.officecommun.search.bench",
+             kSecAttrService as String: "io.szero.manifold.bench",
              kSecAttrAccount as String: Store.world.map { "consent (\($0))" } ?? "consent"]
         }
 
@@ -1934,7 +1934,7 @@ final class Bench {
             let web = find(request, in: browser)?.built ?? browser.active?.built
             if let name = request["toggle"] as? String {
                 guard Store.ownContainer else {
-                    answer(["error": "textcheck toggle only works in a copy under its own bundle id — it would switch the real Search's setting"])
+                    answer(["error": "textcheck toggle only works in a copy under its own bundle id — it would switch the real Manifold's setting"])
                     return
                 }
                 guard let kind = Substitution(rawValue: name) else { answer(["error": "toggle quotes|dashes|replacement"]); return }
@@ -2740,8 +2740,8 @@ final class Bench {
                 return
             }
             let items = NSApp.mainMenu?.items.first { $0.submenu?.title == "Window" }?.submenu?.items ?? []
-            guard let item = items.first(where: { $0.title == "Search" }), let action = item.action else {
-                answer(["error": "no Search item in the Window menu", "items": items.map(\.title)])
+            guard let item = items.first(where: { $0.title == "Manifold" }), let action = item.action else {
+                answer(["error": "no Manifold item in the Window menu", "items": items.map(\.title)])
                 return
             }
             NSApp.sendAction(action, to: item.target, from: item)

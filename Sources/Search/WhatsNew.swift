@@ -79,7 +79,7 @@ enum WhatsNew {
                since: "1.0.6", get: { $0.engineSuggests }, set: { $0.engineSuggests = $1 }),
         Toggle(title: "Pins keep their site", detail: "Links elsewhere open in a peek, and ⌘W takes a pin back to its page, as in Arc.",
                since: "1.0.6", get: { $0.pinsKeepSite }, set: { $0.pinsKeepSite = $1 }),
-        Toggle(title: "Darken light pages", detail: "While Search is dark, pages with no dark look of their own are darkened.",
+        Toggle(title: "Darken light pages", detail: "While Manifold is dark, pages with no dark look of their own are darkened.",
                since: "1.0.6", get: { $0.darkensPages }, set: { $0.darkensPages = $1 }),
         Toggle(title: "Roomier tabs", detail: "Taller rows and larger titles in the sidebar.",
                since: "1.0.6", get: { $0.roomyTabs }, set: { $0.roomyTabs = $1 }),
@@ -206,7 +206,7 @@ enum WhatsNew {
                 "Folders in pinned rows, as in Arc. Settings › Spaces & Pins.",
                 "Capture… in the View menu: a picture of part of a page, or all of it.",
                 "Commands in the address field, as Arc's Command Bar.",
-                "History › Archived Tabs: the tabs Search closed by itself, for 30 days.",
+                "History › Archived Tabs: the tabs Manifold closed by itself, for 30 days.",
                 "A colour for each space, from the space's menu.",
                 "The address field from any app, with a key of your own. Settings › Keyboard & Mouse.",
             ],
@@ -264,7 +264,7 @@ enum WhatsNew {
         ),
         Notes(
             version: "1.0.10", date: "8 November 2026",
-            headline: "Site permissions in the site card, Claude in Chrome can act in Search, ⇧⌘T brings tabs back as they were, and your fixes.",
+            headline: "Site permissions in the site card, Claude in Chrome can act in Manifold, ⇧⌘T brings tabs back as they were, and your fixes.",
             new: [
                 "Site Permissions in the site card: camera, microphone, location and notifications, each Ask, Allow or Block.",
                 "Codes from Apple's Passwords app under the box that asks for one.",
@@ -275,7 +275,7 @@ enum WhatsNew {
             ],
             better: [
                 "The address field says where Return goes, and the key that raised it puts it away.",
-                "⇧⌘T brings a tab back with its Back and Forward, and brings back Settings, History and the other pages of Search.",
+                "⇧⌘T brings a tab back with its Back and Forward, and brings back Settings, History and the other pages of Manifold.",
                 "Turning the blocker off for one site is a switch in the site's card.",
                 "With Tabs show: Letters, a tab's letter is beside its title.",
                 "⌘S slides the column at once, and keeping a bookmark no longer stalls a window with many tabs.",
@@ -333,7 +333,7 @@ enum WhatsNew {
             fixed: [
                 "Typing in a new tab no longer stops with a beep after the first letters.",
                 "The page under a peek no longer reacts to the pointer.",
-                "1Password no longer quits Search on macOS 15; Claude's and ChatGPT's side panels and Vimium C work again.",
+                "1Password no longer quits Manifold on macOS 15; Claude's and ChatGPT's side panels and Vimium C work again.",
                 "Picture in picture's button takes you back to the video, and a paused full-screen video takes clicks.",
                 "And many more, most from your messages and pull requests.",
             ]
@@ -383,7 +383,7 @@ enum WhatsNew {
                 "Leaving a video's full screen happens in one move.",
                 "Pins in spaces you aren't in sleep and give their memory back.",
                 "A bookmark opens in a tab of its own, never in a pin's place.",
-                "Claude in Chrome signs in, and signs in again quietly each time Search starts.",
+                "Claude in Chrome signs in, and signs in again quietly each time Manifold starts.",
                 "Stylus and Vimium C work.",
             ],
             fixed: [
@@ -414,11 +414,11 @@ enum WhatsNew {
                 "Find says “3 of 17”, paints every match, and can match case or whole words.",
                 "Downloads pause and resume.",
                 "Open Link in New Tab leaves you where you are; hold ⌥ to go to it.",
-                "Search can start with a fresh window: your pinned tabs, tab groups and named tabs, and none of last time's others.",
+                "Manifold can start with a fresh window: your pinned tabs, tab groups and named tabs, and none of last time's others.",
                 "Intel Macs get a download of their own.",
             ],
             better: [
-                "Search is built for size, so all of this fits in 6.8 MB, and pages that change all the time, like a chat writing its answer, stay quick.",
+                "Manifold is built for size, so all of this fits in 6.8 MB, and pages that change all the time, like a chat writing its answer, stay quick.",
                 "An extension's popup window opens as a small window, as in Chrome: a password manager's vault, a sign-in.",
                 "Esc closes a new tab you haven't used, and words typed into a new tab wait for you.",
                 "Tampermonkey installs scripts from a link, and SingleFile saves pages again.",
@@ -465,12 +465,12 @@ enum WhatsNew {
                 "Scrolling asks far less of the window, and a tab still loading no longer keeps the Mac busy.",
                 "Where links go, peeking at a link with a shift-click, and flicking the floating video to a corner are now on.",
                 "Tab managers and other extensions see every tab, in every window.",
-                "Window › Move & Resize and the Mac's tiling work with Search's window.",
+                "Window › Move & Resize and the Mac's tiling work with Manifold's window.",
                 "⌘K always opens the list of your tabs, whatever the page.",
             ],
             fixed: [
                 "⌘← and ⌘→ go back and forward again.",
-                "Links from Notion and other apps bring Search to the front.",
+                "Links from Notion and other apps bring Manifold to the front.",
                 "Addresses a dev server prints, like 0.0.0.0:3000, open.",
                 "The tabs you had at quit are the ones that come back.",
                 "The × closes a tab in the tab bar folded away with ⌘S.",
@@ -493,7 +493,7 @@ enum WhatsNew {
             fixed: [
                 "The holes found in this week's reviews: an extension could read files outside its own folder, and a page or an ad could open another app without asking.",
                 "Bitwarden signs in to a self-hosted server, and extension popups hear what changes while they're open.",
-                "A link from Mail brings Search to the front, and a full-screen video no longer goes black.",
+                "A link from Mail brings Manifold to the front, and a full-screen video no longer goes black.",
                 "Your extensions may each ask once more for their permissions at their next update.",
             ]
         ),
@@ -502,13 +502,13 @@ enum WhatsNew {
             headline: "Passkeys, password managers and Google.",
             new: [
                 "A site's passkey button brings up the Mac's own passkey sheet: Touch ID, your iPhone, a security key.",
-                "Search can be the Mac's default browser.",
+                "Manifold can be the Mac's default browser.",
                 "Each off until you turn it on in Settings: a bookmarks bar, a peek at a link with a shift-click, the video that follows you to another app, pages at 120 Hz, and where a link goes.",
                 "Mute a tab, share a page, copy a link as Markdown, the mouse's back and forward buttons, and spaces in the bar across the top.",
             ],
             better: [
                 "Faster to open, and new tabs in about 10 ms.",
-                "Pages see nothing of Search that Safari doesn't show them, and a saved password is offered only on its own site.",
+                "Pages see nothing of Manifold that Safari doesn't show them, and a saved password is offered only on its own site.",
             ],
             fixed: [
                 "1Password, Bitwarden and Proton Pass.",
@@ -524,7 +524,7 @@ enum WhatsNew {
             ],
             better: [],
             fixed: [
-                "Search opens again on macOS 14.",
+                "Manifold opens again on macOS 14.",
                 "Signing in to Google no longer reloads the page over and over with iCloud Passwords installed.",
                 "⌘1–⌘9 on every keyboard layout, Tab between a form's fields, dragging tabs, a double-click along the top to fill the screen, and the Mac's beep while typing.",
             ]
@@ -561,7 +561,7 @@ struct WhatsNewCard: View {
     private var fresh: [WhatsNew.Toggle] { WhatsNew.toggles.filter { $0.since == release.version && $0.shown(prefs) } }
 
     var body: some View {
-        Plate("New in Search \(release.version)", width: 460, close: close) {
+        Plate("New in Manifold \(release.version)", width: 460, close: close) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 14) {
                     rows(fresh)
@@ -639,7 +639,7 @@ struct ReleaseNotesPanel: View {
     private func version(_ note: WhatsNew.Notes) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("Search \(note.version)")
+                Text("Manifold \(note.version)")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(Palette.ink)
                 if !note.date.isEmpty {

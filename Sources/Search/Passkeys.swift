@@ -37,7 +37,7 @@ import WebKit
 final class Passkeys: NSObject {
     static let shared = Passkeys()
 
-    private static let log = Logger(subsystem: "com.officecommun.search", category: "Passkeys")
+    private static let log = Logger(subsystem: "io.szero.manifold", category: "Passkeys")
 
     // MARK: - the Mac's permission
 
@@ -904,7 +904,7 @@ final class PasskeyRelay: NSObject, WKScriptMessageHandlerWithReply {
       if (!window.PublicKeyCredential || !window.CredentialsContainer) return;
       var proto = CredentialsContainer.prototype;
       // In once, whichever copy comes first — an extension's (see
-      // ExtensionShims.passkeys) or Search's own — and marked on the prototype
+      // ExtensionShims.passkeys) or Manifold's own — and marked on the prototype
       // rather than on the window. The mark holds navigator.credentials too:
       // held, WebKit keeps it, and an extension's own get and create on it
       // with it.

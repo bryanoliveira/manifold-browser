@@ -6,7 +6,7 @@ starts hidden in a world of its own (bld-tr-<checkout>, see split_view.use)
 with SEARCH_TRANSLATE_FAKE=1: each string comes back as "[fr→en] string"
 instead of being translated, so no language has to be downloaded and the
 framework is never called. Everything else is the real path: the script
-in Search's world, the slices, the marks between a sentence's parts, the
+in Manifold's world, the slices, the marks between a sentence's parts, the
 cache, per-block languages, frames, the observer, Show Original, the tab's
 mark and Always Translate. Driven through ./bench's socket; local pages
 only; nothing shows a window or a popover. The world is removed after.

@@ -25,7 +25,7 @@ sv.use("undo-reopens")
 
 
 def z_key():
-    """The key code that types z on this Mac's keyboard layout: Search reads
+    """The key code that types z on this Mac's keyboard layout: Manifold reads
     a shortcut by what its key types (6 on QWERTY, 13 on AZERTY)."""
     js = ('ObjC.import("AppKit"); var c = -1; for (var k = 0; k < 51 && c < 0; k++) {'
           ' var e = $.NSEvent.keyEventWithTypeLocationModifierFlagsTimestampWindowNumberContextCharactersCharactersIgnoringModifiersIsARepeatKeyCode('

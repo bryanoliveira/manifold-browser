@@ -7,7 +7,7 @@ Send links to a space on, a second space "Two", and one rule: localhost to
 Two. Pages are served from 127.0.0.1, which no rule names, and link to
 localhost on the same port. Checked:
 
-- a link from another app to localhost opens in Two, and Search switches to it;
+- a link from another app to localhost opens in Two, and Manifold switches to it;
 - one to 127.0.0.1 opens where you are;
 - a target=_blank click and a ⌘-click from a page in the first space open
   their localhost tab in Two, and not in the first space;

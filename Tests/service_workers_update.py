@@ -4,7 +4,7 @@
 Build first (`./build.sh`), then `python3 Tests/service_workers_update.py`.
 A hidden probe in a world of its own, removed afterwards.
 
-At launch, Search clears every service worker registration when what the
+At launch, Manifold clears every service worker registration when what the
 extensions' workers would run has changed (Extensions.forgetWorkersIfChanged,
 #266): WebKit may otherwise start a stale copy of an extension's worker.
 That list carries the shim's version, which changes with nearly every

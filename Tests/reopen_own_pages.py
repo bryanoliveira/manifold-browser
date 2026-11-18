@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""⇧⌘T brings back Search's own pages, in a hidden probe.
+"""⇧⌘T brings back Manifold's own pages, in a hidden probe.
 
 Build first (`./build.sh`), then `python3 Tests/reopen_own_pages.py` from a
 worktree. History, Settings and the rest have no web address, so a closed

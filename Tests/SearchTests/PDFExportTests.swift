@@ -29,7 +29,7 @@ final class PDFExportTests: XCTestCase {
         let captured = try XCTUnwrap(browser.active)
         browser.activeID = other.id
 
-        let file = FileManager.default.temporaryDirectory.appendingPathComponent("Search-PDF-\(UUID().uuidString).pdf")
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent("Manifold-PDF-\(UUID().uuidString).pdf")
         defer { try? FileManager.default.removeItem(at: file) }
         let worked = await withCheckedContinuation { continuation in
             browser.exportPDF(captured, to: file) { continuation.resume(returning: $0) }

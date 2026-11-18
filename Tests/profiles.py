@@ -22,7 +22,7 @@ Checked here:
 - a relaunch brings each window back in its profile, with its tabs;
 - deleting a profile closes its windows and erases its cookies, spaces and
   history, and a profile made again with the same name starts signed out;
-- Arc's profiles come in as Search profiles, each with its spaces.
+- Arc's profiles come in as Manifold profiles, each with its spaces.
 """
 import json
 import os
@@ -299,7 +299,7 @@ def main():
         time.sleep(1)
         p = profile()
         names = {x["name"]: x["spaces"] for x in p["profiles"]}
-        t.ok("Arc's second profile is a Search profile, named as Arc names it", "Arc Raycast" in names, names)
+        t.ok("Arc's second profile is a Manifold profile, named as Arc names it", "Arc Raycast" in names, names)
         t.ok("with its space in it", names.get("Arc Raycast") == ["Arc Work"], names)
         t.ok("Arc's first profile's space is Personal's", "Arc Home" in names.get("Personal", []) and "Arc Work" not in names.get("Personal", []), names)
         t.ok("this window shows Personal's only", "Arc Work" not in p["spaces"], p["spaces"])

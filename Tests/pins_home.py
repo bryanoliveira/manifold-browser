@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Settings › Tabs › Pins go back home: a pin closed with ⌘W, or open when
-Search quits, comes back at the page it was pinned at, as in Arc.
+Manifold quits, comes back at the page it was pinned at, as in Arc.
 
 Build first (`./build.sh`), then `python3 Tests/pins_home.py`. It uses the
 split suite's harness: started hidden, no window made or shown, everything

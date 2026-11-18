@@ -2,7 +2,7 @@
 """Per-extension private consent, checked in a hidden, isolated probe.
 
 Build first (`./build.sh`), then `python3 Tests/private_extensions.py`.
-Content scripts, blocking rules, native WebKit APIs and Search's shims must
+Content scripts, blocking rules, native WebKit APIs and Manifold's shims must
 all respect the same consent, including IDs cached before revocation.
 """
 import json

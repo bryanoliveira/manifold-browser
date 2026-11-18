@@ -20,7 +20,7 @@ final class ProfilesTests: XCTestCase {
         Disk.drain()
         if let world, Store.world == world {
             try? FileManager.default.removeItem(at: Store.folder)
-            UserDefaults(suiteName: "com.officecommun.search.test.\(world)")?.removePersistentDomain(forName: "com.officecommun.search.test.\(world)")
+            UserDefaults(suiteName: "io.szero.manifold.test.\(world)")?.removePersistentDomain(forName: "io.szero.manifold.test.\(world)")
         }
         unsetenv("SEARCH_PROBE")
         super.tearDown()

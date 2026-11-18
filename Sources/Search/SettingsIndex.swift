@@ -106,7 +106,7 @@ enum SettingsIndex {
     static let items: [SettingsItem] = ([
         // General
         .init(id: "general.default", group: "browser", icon: "link.badge.plus",
-              title: "Open links from other apps", detail: "Make Search the browser Mail, Slack and the rest send links to",
+              title: "Open links from other apps", detail: "Make Manifold the browser Mail, Slack and the rest send links to",
               words: ["default browser"]),
         .init(id: "general.import", group: "browser", icon: "square.and.arrow.down.on.square",
               title: "Bring things over", detail: "Bookmarks, history, passwords and extensions from another browser",
@@ -114,10 +114,10 @@ enum SettingsIndex {
               words: ["import", "chrome", "safari", "arc", "migrate"]),
         .init(id: "sync", group: "browser", icon: "arrow.triangle.2.circlepath",
               title: "Sync with your other Macs", detail: "Spaces, pins, bookmarks and settings, through a folder you choose",
-              more: "Choose a folder your Macs share, in iCloud Drive or Dropbox for example, and turn this on with the same folder in Search on each Mac. Each profile syncs on its own. Never your history, passwords, cookies, sign-ins or open tabs. No account and no server: only small files in that folder.",
+              more: "Choose a folder your Macs share, in iCloud Drive or Dropbox for example, and turn this on with the same folder in Manifold on each Mac. Each profile syncs on its own. Never your history, passwords, cookies, sign-ins or open tabs. No account and no server: only small files in that folder.",
               keys: ["sync.folder"], words: ["sync", "icloud", "dropbox", "other mac", "devices", "mac"]),
         .init(id: "quit.confirm", group: "browser", icon: "power",
-              title: "Confirm before quitting", detail: "Ask before ⌘Q or Quit Search closes the browser",
+              title: "Confirm before quitting", detail: "Ask before ⌘Q or Quit Manifold closes the browser",
               keys: ["quit.confirm"], words: ["quit", "cmd q"]),
         .init(id: "downloads.folder", group: "downloads", icon: "folder",
               title: "Save to", detail: "", keys: ["downloads"], words: ["download folder"]),
@@ -146,7 +146,7 @@ enum SettingsIndex {
               more: "Off, the inspector is left as it comes. The panels and the tools stay Web Inspector's.",
               keys: ["inspector.chrome"], words: ["devtools", "inspect", "console", "chrome"]),
         .init(id: "inspector.dark", group: "theme", icon: "moon.stars",
-              title: "Keep the Web Inspector dark", detail: "The tools stay dark while Search is light",
+              title: "Keep the Web Inspector dark", detail: "The tools stay dark while Manifold is light",
               more: "Off, it follows Appearance. Chrome's colors, when they're on, follow this too.",
               keys: ["inspector.dark"], words: ["devtools", "inspect", "console", "dark"], parent: "look"),
         .init(id: "tabs.layout", group: "window", icon: "sidebar.left",
@@ -203,7 +203,7 @@ enum SettingsIndex {
               keys: [Motion.lightKey], words: ["battery", "animations", "motion"]),
         .init(id: "motion.instant", group: "motion", icon: "bolt",
               title: "Reduce animations", detail: "Switching tabs, spaces and panels happens at once, without sliding or fading",
-              more: "For Search alone, whatever Reduce Motion in System Settings says. The tab ⌘1–⌘9 picks is lit at once, and the page shows at once.",
+              more: "For Manifold alone, whatever Reduce Motion in System Settings says. The tab ⌘1–⌘9 picks is lit at once, and the page shows at once.",
               keys: [Motion.instantKey], words: ["animations", "motion", "instant", "faster", "reduce motion", "transitions"]),
 
         // Tabs
@@ -253,7 +253,7 @@ enum SettingsIndex {
               keys: ["tabs.sleep", SleepPace.key], words: ["memory", "discard", "suspend", "ram"], kind: .wide),
         .init(id: "tabs.close.after", group: "memory", icon: "timer",
               title: "Close tabs you leave alone", detail: "Pinned, named and grouped tabs stay. ⇧⌘T brings one back",
-              more: "Counted from when you last left the tab, while Search is quit too. Private tabs, sound, calls and anything typed stay.",
+              more: "Counted from when you last left the tab, while Manifold is quit too. Private tabs, sound, calls and anything typed stay.",
               keys: ["tabs.close.after"], words: ["auto close", "archive", "clean up"]),
         .init(id: "tabs.shortcuts", group: "tabbar", icon: "command",
               title: "Show tab numbers while ⌘ is held", detail: "Which tab each ⌘1–9 selects",
@@ -279,7 +279,7 @@ enum SettingsIndex {
               title: "Site shortcuts", detail: "A word before your search sends it to that site: \"yt cats\"",
               keys: ["search.keywords"], words: ["keyword", "bang"]),
         .init(id: "links.little", group: "links", icon: "rectangle.on.rectangle",
-              title: "Open links from other apps in a small window", detail: "To read and close, or keep with Open in Search (⌘O)",
+              title: "Open links from other apps in a small window", detail: "To read and close, or keep with Open in Manifold (⌘O)",
               keys: ["links.little"], words: ["little arc", "mini window"]),
         .init(id: "links.little.tabs", group: "links", icon: "arrow.right.square",
               title: "Go to a tab that has the page", detail: "A link to a page already open in a tab goes to that tab, not a small window",
@@ -293,11 +293,11 @@ enum SettingsIndex {
               more: "A small switch in its corner makes an article light, dark or as the window is, kept for the next one.",
               keys: ["reader.follows"], words: ["reader", "dark"]),
         .init(id: "float.style", group: "video", icon: "pip",
-              title: "The floating video", detail: "Search's own window, or macOS's picture in picture",
-              more: "Search's window floats a video without a click and keeps its page alive in it. Picture in picture is the one Safari uses, with the system's controls.",
+              title: "The floating video", detail: "Manifold's own window, or macOS's picture in picture",
+              more: "Manifold's window floats a video without a click and keeps its page alive in it. Picture in picture is the one Safari uses, with the system's controls.",
               keys: ["float.style"], words: ["pip", "picture in picture", "mini player"]),
         .init(id: "float.own", group: "video", icon: "pip.exit",
-              title: "Float the video on its own", detail: "A playing video comes out when you leave its tab, or Search",
+              title: "Float the video on its own", detail: "A playing video comes out when you leave its tab, or Manifold",
               more: "It goes back into its tab when you return, and stays put while its window is still in view on another screen. ⇧⌘P still floats one by hand.",
               keys: ["float.leave", "float.away"], words: ["pip", "picture in picture", "switch apps"], kind: .wide),
         .init(id: "float.minimize", group: "video", icon: "minus.circle",
@@ -324,7 +324,7 @@ enum SettingsIndex {
               keys: ["pages.capture"], words: ["screenshot", "capture", "snapshot", "picture", "png", "arc"]),
         .init(id: "sites.styles", group: "pages", icon: "paintbrush",
               title: "Your own style for a site", detail: "Edit Site Style… in the View menu puts CSS of yours on the site you're on",
-              more: "Applied as you type, to every page of that site, as Arc's Boosts. CSS only: Search never runs script you write in a page. Off, every style is kept but none is worn.",
+              more: "Applied as you type, to every page of that site, as Arc's Boosts. CSS only: Manifold never runs script you write in a page. Off, every style is kept but none is worn.",
               keys: ["sites.styles"], words: ["boost", "boosts", "css", "style", "stylesheet", "customize", "custom css", "arc", "theme"]),
         .init(id: "pages.120", group: "pages", icon: "speedometer",
               title: "Pages at 120 Hz", detail: "Smoother scrolling on screens that can. On power spares the battery",
@@ -369,7 +369,7 @@ enum SettingsIndex {
               keys: [SharedPins.key], words: ["arc", "zen", "favourites", "favorites", "essentials", "shared pins", "every space"]),
         .init(id: "pins.keep", group: "pins", icon: "pin.circle",
               title: "Pins keep their site", detail: "Links elsewhere open over the pin, and ⌘W takes it back home",
-              more: "As in Arc and Safari: a link from a pin to another site opens in a peek over it, and a pin closed with ⌘W, or left open when Search quits, comes back at the page it was pinned at.",
+              more: "As in Arc and Safari: a link from a pin to another site opens in a peek over it, and a pin closed with ⌘W, or left open when Manifold quits, comes back at the page it was pinned at.",
               keys: ["pins.home", "pins.peek"], words: ["pinned tabs", "go home", "reset pin"]),
         .init(id: "pins.list", group: "pins", icon: "list.bullet.rectangle",
               title: "Pinned rows", detail: "Pins as rows under the squares, and Clear over the rest",
@@ -418,7 +418,7 @@ enum SettingsIndex {
               keys: ["passkeys"], words: ["webauthn", "touch id"]),
         .init(id: "passwords.apple", group: "apple", icon: "applelogo",
               title: "Passwords from Apple's Passwords app", detail: "Your Passwords app's accounts and verification codes under their box. Unofficial",
-              more: "Search talks to the helper Apple made for its Chrome extension, as that extension. Never in private tabs.",
+              more: "Manifold talks to the helper Apple made for its Chrome extension, as that extension. Never in private tabs.",
               keys: ["passwords.apple"], words: ["icloud keychain", "apple"]),
         .init(id: "contacts.fill", group: "forms", icon: "person.crop.rectangle",
               title: "Fill in your contact details", detail: "Your card in Contacts under name, email, phone and address boxes",
@@ -472,7 +472,7 @@ enum SettingsIndex {
               keys: ["swipe.history"], words: ["gesture", "trackpad", "back"]),
         .init(id: "launcher.on", group: "anywhere", icon: "rectangle.and.text.magnifyingglass",
               title: "Open the address field from any app", detail: "A key of your own raises it over the app you're in, as Spotlight does",
-              more: "Return opens what you typed in a new tab of Search's window in front, or goes to the tab that already has it, and brings Search forward. Escape, a click outside or the key again puts it away and leaves you where you were. With a window of Search's in front, the key is left to the page: ⌘L is the field there.",
+              more: "Return opens what you typed in a new tab of Manifold's window in front, or goes to the tab that already has it, and brings Manifold forward. Escape, a click outside or the key again puts it away and leaves you where you were. With a window of Manifold's in front, the key is left to the page: ⌘L is the field there.",
               keys: ["launcher.on", "launcher.key"],
               words: ["spotlight", "launcher", "global", "hotkey", "shortcut", "quick search", "raycast", "alfred", "anywhere"]),
         .init(id: "launcher.key", group: "anywhere", icon: "keyboard",
@@ -483,14 +483,14 @@ enum SettingsIndex {
         .init(id: "updates.version", group: "updates", icon: "arrow.down.app",
               title: "Updates", detail: "Checked every hour on its own", words: ["version", "update"]),
         .init(id: "updates.auto", group: "updates", icon: "arrow.triangle.2.circlepath",
-              title: "Install updates on its own", detail: "Off, Search tells you and waits for Install",
+              title: "Install updates on its own", detail: "Off, Manifold tells you and waits for Install",
               keys: [Updater.installKey], words: ["automatic updates"]),
         .init(id: "about.feedback", group: "updates", icon: "envelope",
               title: "Found something wrong?", detail: "Opens a draft with the version already in it", words: ["bug", "feedback", "report"]),
         .init(id: "about.notes", group: "updates", icon: "sparkles",
               title: "What's new", detail: "Every version's notes, newest first", words: ["release notes", "changelog"]),
         .init(id: "bench", group: "developer", icon: "terminal",
-              title: "Let a script drive Search", detail: "A local socket for testing; its tabs never take over",
+              title: "Let a script drive Manifold", detail: "A local socket for testing; its tabs never take over",
               more: "Its tabs open beside yours with a flask on them. See ./bench.",
               keys: ["bench"], words: ["automation", "script", "developer"]),
 
@@ -592,8 +592,8 @@ enum SettingsIndex {
     /// What a dimmed dependent row says instead of its own line.
     static func needs(_ item: SettingsItem) -> String {
         switch item.id {
-        case "pages.dusk": return "Only while Search isn't set to Light"
-        case "inspector.dark": return "Only while Search isn't set to Dark"
+        case "pages.dusk": return "Only while Manifold isn't set to Light"
+        case "inspector.dark": return "Only while Manifold isn't set to Dark"
         case "toolbar.left", "tabs.compact": return "Only with the tabs across the top"
         case "sidebar.roomy": return "Only with titles in the column"
         case "sidebar.foldIcons": return "Only with the column down a side and not hidden until the edge"

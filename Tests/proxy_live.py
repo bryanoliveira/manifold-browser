@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Settings › Privacy › Proxy really carries Search's traffic, in a hidden probe.
+"""Settings › Privacy › Proxy really carries Manifold's traffic, in a hidden probe.
 
 Build first (`./build.sh`), then `python3 Tests/proxy_live.py`. It runs a copy
-of build/Search.app under a bundle id of its own, hidden, in a world of its
+of build/Manifold.app under a bundle id of its own, hidden, in a world of its
 own with split_view.py's harness; the copy, its WebKit folders and the world
 are removed afterwards.
 
@@ -18,7 +18,7 @@ what travels inside. That is why every check here is about a host.
 Checks, in order:
   1. proxy off, probe.test is unreachable (the control: no other path exists)
   2. proxy on, the same address renders, and the proxy was asked for it
-  3. Search's own fetches go through it too: the page's icon sits on a host
+  3. Manifold's own fetches go through it too: the page's icon sits on a host
      of its own, so a tunnel opened to that host is the proof
   4. 127.0.0.1 still loads with the proxy on, and the proxy never saw it,
      so your own machine stays reachable
@@ -39,7 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import split_view as sv  # noqa: E402
 
 sv.use("proxy-live")
-BUNDLE = "com.officecommun.search.proxylive"
+BUNDLE = "io.szero.manifold.proxylive"
 work = Path(tempfile.mkdtemp(prefix="search-proxylive-"))
 
 seen = []           # (method, host, port, path) the proxy was asked for
@@ -173,8 +173,8 @@ PROXY_PORT = proxy.server_port
 
 
 def probe_copy():
-    app = work / "Search.app"
-    shutil.copytree(Path(sv.ROOT, "build", "Search.app"), app, symlinks=True)
+    app = work / "Manifold.app"
+    shutil.copytree(Path(sv.ROOT, "build", "Manifold.app"), app, symlinks=True)
     subprocess.run(["/usr/libexec/PlistBuddy", "-c", f"Set :CFBundleIdentifier {BUNDLE}",
                     str(app / "Contents/Info.plist")], check=True)
     (app / "Contents/embedded.provisionprofile").unlink(missing_ok=True)
@@ -250,7 +250,7 @@ def main():
                 got = True
                 break
             time.sleep(0.25)
-        t.ok("a favicon, which Search fetches itself, goes through the proxy too",
+        t.ok("a favicon, which Manifold fetches itself, goes through the proxy too",
              got, seen[-6:])
 
         # 4. Your own machine stays direct.

@@ -18,7 +18,7 @@ final class ImportFileTests: XCTestCase {
         Disk.drain()
         if let probeWorld, Store.world == probeWorld {
             try? FileManager.default.removeItem(at: Store.folder)
-            UserDefaults(suiteName: "com.officecommun.search.test.\(probeWorld)")?.removePersistentDomain(forName: "com.officecommun.search.test.\(probeWorld)")
+            UserDefaults(suiteName: "io.szero.manifold.test.\(probeWorld)")?.removePersistentDomain(forName: "io.szero.manifold.test.\(probeWorld)")
         }
         unsetenv("SEARCH_PROBE")
         super.tearDown()
@@ -423,7 +423,7 @@ final class ImportFileTests: XCTestCase {
         XCTAssertEqual(source.arcCounts(profile: nil)?.spaces, 2)
         XCTAssertEqual(source.arcCounts(profile: nil)?.pinned, 5)
         XCTAssertEqual(imported.spaces.map(\.name), [workName, personalName])
-        XCTAssertEqual(imported.spaces[0].pinned.count, 1, "Arc folders remain folders until Search places their tabs in a group")
+        XCTAssertEqual(imported.spaces[0].pinned.count, 1, "Arc folders remain folders until Manifold places their tabs in a group")
         if case .folder(let folder) = imported.spaces[0].pinned[0] {
             XCTAssertEqual(folder.title, "Research")
             XCTAssertEqual(Arc.count([imported.spaces[0].pinned[0]]), 2)

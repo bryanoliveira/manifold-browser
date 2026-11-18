@@ -1450,7 +1450,7 @@ final class Browser: NSObject, ObservableObject {
         let many = count == 1 ? "1 password" : "\(count) passwords"
         Ask.sure(
             count == 1 ? "Remove 1 Password?" : "Remove \(count) Passwords?",
-            detail: "They're taken out of your keychain. Only the passwords Search keeps are removed: password managers, other apps and other browsers keep theirs. This can't be undone.",
+            detail: "They're taken out of your keychain. Only the passwords Manifold keeps are removed: password managers, other apps and other browsers keep theirs. This can't be undone.",
             confirm: "Remove",
             returnCancels: true
         ) { [weak self] in
@@ -2695,7 +2695,7 @@ final class Browser: NSObject, ObservableObject {
             if prefs.bench {
                 Bench.shared.start(for: self)
             } else if prefs.benchRefused {
-                announce("“Let a script drive Search” was turned on outside Settings, and stays off")
+                announce("“Let a script drive Manifold” was turned on outside Settings, and stays off")
             }
             welcoming = !prefs.welcomed
             newsShowing = WhatsNew.due(prefs: prefs, welcoming: welcoming)
@@ -3022,7 +3022,7 @@ final class Browser: NSObject, ObservableObject {
             .sink { [weak self] on in
                 guard let self else { return }
                 if on { Bench.shared.start(for: self) } else { Bench.shared.stop() }
-                announce(on ? "Scripts can drive Search — see ./bench" : "The bench is closed")
+                announce(on ? "Scripts can drive Manifold — see ./bench" : "The bench is closed")
             }
             .store(in: &bag)
 
@@ -8772,7 +8772,7 @@ extension Browser: WKDownloadDelegate {
     nonisolated static func markDownloaded(_ file: URL) {
         var values = URLResourceValues()
         values.quarantineProperties = [
-            kLSQuarantineAgentNameKey as String: "Search",
+            kLSQuarantineAgentNameKey as String: "Manifold",
             kLSQuarantineTypeKey as String: kLSQuarantineTypeWebDownload as String,
         ]
         var file = file

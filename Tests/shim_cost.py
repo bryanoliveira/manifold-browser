@@ -10,7 +10,7 @@ parse costs something measurable.
 
 Measured by loading one page with 20 iframes under the same extension with
 0, 1 and 3 content_scripts entries, each entry carrying a one-line script.
-The only difference between the runs is how many times Search prepends the
+The only difference between the runs is how many times Manifold prepends the
 shim, so the difference in load time is the shim's parse, nothing else.
 
 Build first (`./build.sh release app`), then `python3 Tests/shim_cost.py`.
@@ -36,7 +36,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import split_view as sv  # noqa: E402
 
 sv.use("shim-cost")
-BUNDLE = "com.officecommun.search.shimcost"
+BUNDLE = "io.szero.manifold.shimcost"
 work = Path(tempfile.mkdtemp(prefix="search-shimcost-"))
 
 KIDS = 20
@@ -107,10 +107,10 @@ def files(name):
 
 
 def probe_copy():
-    app = work / "Search.app"
+    app = work / "Manifold.app"
     if app.exists():
         return str(app)
-    shutil.copytree(Path(sv.ROOT, "build", "Search.app"), app, symlinks=True)
+    shutil.copytree(Path(sv.ROOT, "build", "Manifold.app"), app, symlinks=True)
     subprocess.run(["/usr/libexec/PlistBuddy", "-c", f"Set :CFBundleIdentifier {BUNDLE}",
                     str(app / "Contents/Info.plist")], check=True)
     (app / "Contents/embedded.provisionprofile").unlink(missing_ok=True)

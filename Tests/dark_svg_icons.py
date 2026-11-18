@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""An SVG icon with a dark look of its own wears it when Search is dark (#807).
+"""An SVG icon with a dark look of its own wears it when Manifold is dark (#807).
 
 Build first (`./build.sh`), then `python3 Tests/dark_svg_icons.py`. It uses
 the split suite's harness: started hidden, no window made or shown,
 everything removed afterwards. Two sites' SVG is black, and white under its
 own `prefers-color-scheme: dark` rule, declared the way chatgpt.com does it;
-another's is red in both looks, and one more's icon is a blue PNG. Search
+another's is red in both looks, and one more's icon is a blue PNG. Manifold
 starts dark, goes light, then dark again: each SVG is asked for once, and a
 tab wears its icon all the way through a switch; the SVG it was drawn from is
 kept beside the drawing, and goes with it. First, one more
-black-and-white SVG comes 2 s late, and Search goes light and back while it's
+black-and-white SVG comes 2 s late, and Manifold goes light and back while it's
 on its way. Last, a page that declares no icon, on a site whose pages agree
 on a green PNG in the light and not in the dark, wears no other page's when
-Search goes dark again.
+Manifold goes dark again.
 """
 import hashlib
 import subprocess
@@ -90,7 +90,7 @@ try:
     sv.cmd({"do": "ui", "look": "light"})
     time.sleep(4)
     sv.cmd({"do": "ui", "look": "dark"})
-    t.ok("dark: an SVG that came in while Search was light is drawn dark: white", white(wait(late, white)), icon(late))
+    t.ok("dark: an SVG that came in while Manifold was light is drawn dark: white", white(wait(late, white)), icon(late))
     ink = sv.cmd({"do": "open", "url": f"http://127.0.0.1:{p1}/ink"})["id"]
     t.ok("dark: an SVG with a dark look of its own is drawn in it: white", white(wait(ink, white)), icon(ink))
     red_ = sv.cmd({"do": "open", "url": f"http://127.0.0.1:{p2}/red"})["id"]

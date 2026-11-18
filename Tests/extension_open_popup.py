@@ -3,14 +3,14 @@
 probe.
 
 Build first (`./build.sh`), then `python3 Tests/extension_open_popup.py`.
-It runs a copy of build/Search.app under a bundle id of its own, hidden, in
+It runs a copy of build/Manifold.app under a bundle id of its own, hidden, in
 a world of its own with split_view.py's harness; the copy, its WebKit
 folders and the world are removed afterwards.
 
 Inoreader keeps no popup in its manifest. A click reaches its worker
 (action.onClicked), which asks for its site again (permissions.request),
 sets the popup, opens it (action.openPopup) and unsets it at once, so the
-next click comes back to the worker. In Search the click did nothing you
+next click comes back to the worker. In Manifold the click did nothing you
 could see. What is checked:
 
 - the click reaches the worker, and each step after it answers;
@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import split_view as sv  # noqa: E402
 
 sv.use("extension-open-popup")
-BUNDLE = "com.officecommun.search.openpopup"
+BUNDLE = "io.szero.manifold.openpopup"
 work = Path(tempfile.mkdtemp(prefix="search-openpopup-"))
 
 FILES = {
@@ -62,8 +62,8 @@ chrome.action.onClicked.addListener((tab) => {
 
 
 def probe_copy():
-    app = work / "Search.app"
-    shutil.copytree(Path(sv.ROOT, "build", "Search.app"), app, symlinks=True)
+    app = work / "Manifold.app"
+    shutil.copytree(Path(sv.ROOT, "build", "Manifold.app"), app, symlinks=True)
     subprocess.run(["/usr/libexec/PlistBuddy", "-c", f"Set :CFBundleIdentifier {BUNDLE}", str(app / "Contents/Info.plist")], check=True)
     (app / "Contents/embedded.provisionprofile").unlink(missing_ok=True)
     subprocess.run(["codesign", "-f", "-s", "-", "--entitlements", str(Path(sv.ROOT, "Search.entitlements")), "--deep", str(app)],

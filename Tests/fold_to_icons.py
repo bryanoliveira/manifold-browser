@@ -8,7 +8,7 @@ or brought forward, everything removed afterwards.
 With Settings › Appearance › Tabs, ⌘S makes the column icons only, turned on,
 ⌘S takes the column to the Icons only layout and back to its titles: the tabs
 stay in sight, the column is never folded away, it stays on its side and gets
-the width it had back. The layout is what changes, so it is kept when Search
+the width it had back. The layout is what changes, so it is kept when Manifold
 is opened again. Off, as it is unless turned on, ⌘S folds the column
 away as before. It is ⌘S as before too with the tabs across the top, and with
 the column hidden until the pointer reaches the edge, where ⌘S is what brings

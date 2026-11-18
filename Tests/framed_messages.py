@@ -20,7 +20,7 @@ Affinity Pathfinder 2.88 does — through its worker, never by postMessage:
 
 In Chrome a tab's message reaches the extension's pages framed in it as
 well as its content scripts. WebKit brings it to the content scripts only,
-and Search's worker hands it on (alsoFramed in ExtensionShims.swift); it
+and Manifold's worker hands it on (alsoFramed in ExtensionShims.swift); it
 found the frames with webNavigation, which this extension, like
 Pathfinder, doesn't ask for.
 """

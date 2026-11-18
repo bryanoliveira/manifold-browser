@@ -10,9 +10,10 @@
 # then v1.0.14-manifold.2, until upstream's VERSION moves on.
 #
 # build.sh already names the app Manifold and draws its icon from
-# Fork/mark.svg. It is signed ad hoc, so it runs on the Mac that installs it.
-# The bundle id and the data folders stay Search's, so an existing Search
-# setup on this Mac carries over.
+# Fork/mark.svg. It is signed with the builder's Apple Development
+# certificate (build.sh), or ad hoc without one, and is not notarised: macOS
+# asks once before opening a downloaded copy. Its bundle id is
+# io.szero.manifold; Fork/migrate-from-search.sh brings a Search's data over.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -38,7 +39,7 @@ while git rev-parse -q --verify "refs/tags/v$VERSION-manifold.$N" >/dev/null; do
 TAG="v$VERSION-manifold.$N"
 
 ./build.sh release
-APP="build/Search.app"
+APP="build/Manifold.app"
 codesign --verify --deep --strict "$APP"
 
 OUT="build/manifold"
@@ -58,9 +59,9 @@ NOTES="$OUT/notes.md"
 {
   echo "$NAME $TAG for Apple Silicon Macs, built from Search $VERSION."
   echo
-  echo "This build is signed ad hoc. It has no Developer ID, so macOS refuses it on first launch."
+  echo "This build isn't notarised: it has no Developer ID, so macOS refuses it on first launch."
   echo "Open it once from System Settings › Privacy & Security › Open Anyway."
-  echo "Or remove the download mark in Terminal: \`xattr -dr com.apple.quarantine /Applications/Search.app\`."
+  echo "Or remove the download mark in Terminal: \`xattr -dr com.apple.quarantine /Applications/Manifold.app\`."
   echo
   echo "## What this fork adds to Search"
   echo

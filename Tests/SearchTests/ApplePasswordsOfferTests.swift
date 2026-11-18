@@ -48,7 +48,7 @@ final class ApplePasswordsOfferTests: XCTestCase {
 
     func testNeverWhereItMustNotBe() {
         let offer = ApplePasswordsOffer(store: store)
-        XCTAssertNil(offer.site(for: field(kept: 1), person), "an account of Search's own for the site")
+        XCTAssertNil(offer.site(for: field(kept: 1), person), "an account of Manifold's own for the site")
         XCTAssertNil(offer.site(for: field(privateTab: true), person), "a private tab")
         XCTAssertNil(offer.site(for: field(URL(string: "http://accounts.example.com/login")), person), "http")
         XCTAssertNil(offer.site(for: field(frame: "auth.other.test"), person), "a frame of another site")

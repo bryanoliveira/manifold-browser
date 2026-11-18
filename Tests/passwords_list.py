@@ -10,7 +10,7 @@ Passwords › Open… turns the Settings tab itself into the Passwords page
 kept yet … 0 passwords" while the box on a sign-in page offered the accounts.
 The list is now read each time the page is shown, whichever way it came.
 
-The accounts are made up and kept under this test world's own label ("Search
+The accounts are made up and kept under this test world's own label ("Manifold
 (sec-pwl-<checkout>)"), in the shapes found in a real keychain: one kept from
 a form over https with a last-used date, one brought in by an import with no
 protocol, one from a page sent in the clear. Only that label's items are
@@ -27,7 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import split_view as sv  # noqa: E402
 
 sv.use("sec-pwl")
-LABEL = f"Search ({sv.W})"  # Vault's label in this world
+LABEL = f"Manifold ({sv.W})"  # Vault's label in this world
 PORT = 8797
 
 LOGIN = """<!doctype html><title>sign in</title>

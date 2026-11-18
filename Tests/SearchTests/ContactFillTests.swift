@@ -121,7 +121,7 @@ final class ContactFillTests: XCTestCase {
         <form><label for="p">Project name</label><input id="p" name="name"><textarea name="description"></textarea></form>
         <form><label for="n">Name</label><input id="n" name="name"><label for="o">Organization</label><input id="o" name="org"></form>
         <form><input id="u" name="username" placeholder="Username"><input type="password"></form>
-        <form role="search"><input id="s" name="q" placeholder="Search"></form>
+        <form role="search"><input id="s" name="q" placeholder="Manifold"></form>
         <form><input id="cc" autocomplete="cc-name" placeholder="Name on card"><input autocomplete="cc-number"></form>
         <form><label for="t">Title</label><input id="t" name="title"><label for="m">Message</label><textarea id="m" name="message"></textarea></form>
         """)

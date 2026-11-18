@@ -45,12 +45,12 @@ PAGES = {
     "/code": '<form action="/s"><input id="c" name="otc" autocomplete="one-time-code"><button>Verify</button></form>',
     # GitHub's search dialog has no input name or id; only its accessible
     # name and placeholder say what it is. Its issue title is not a login.
-    "/github-search": '<input type="text" role="combobox" aria-label="Search or jump to" '
-                      'placeholder="Search or jump to..."><button>Clear</button>',
+    "/github-search": '<input type="text" role="combobox" aria-label="Manifold or jump to" '
+                      'placeholder="Manifold or jump to..."><button>Clear</button>',
     "/issue-title": '<form><label for="issue-title">Add a title</label>'
                     '<input id="issue-title" placeholder="Title"><textarea></textarea><button>Create</button></form>',
-    "/labelled-search": '<form><input id="u" aria-label="Search repositories"><button>Go</button></form>',
-    "/placeholder-search": '<form><input id="u" placeholder="Search repositories"><button>Go</button></form>',
+    "/labelled-search": '<form><input id="u" aria-label="Manifold repositories"><button>Go</button></form>',
+    "/placeholder-search": '<form><input id="u" placeholder="Manifold repositories"><button>Go</button></form>',
     "/username-off": '<form><input id="u" autocomplete="off" placeholder="Username"><button>Continue</button></form>',
 }
 

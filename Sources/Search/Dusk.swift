@@ -201,7 +201,7 @@ final class Dusk: ObservableObject {
       if (window.__officeDusk) { window.__officeDusk.update(config); return; }
       if (!config.on) return;
       // A frame darkens its own document, since nothing outside it can:
-      // but only while the page around it is darkened, which Search tells
+      // but only while the page around it is darkened, which Manifold tells
       // it (top), and only if it measures light itself, so a light comment
       // box goes dark with its page and a video player is left alone. Until
       // it is told, it does nothing at all. An ad's pixel isn't worth it.
@@ -211,7 +211,7 @@ final class Dusk: ObservableObject {
       var doc = document, root = doc.documentElement;
       var scheme = matchMedia('(prefers-color-scheme: dark)');
       var host = location.hostname.toLowerCase().replace(/^www\./, '');
-      // Search says what it knows of this one site, and only if this is the
+      // Manifold says what it knows of this one site, and only if this is the
       // site it meant: a redirect to another lands with nothing known.
       var ours = function () { return config.host === host; };
       // true: dark by itself. false: light. undefined: not measured yet.

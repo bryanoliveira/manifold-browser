@@ -26,7 +26,7 @@ final class DownloadLifecycleTests: XCTestCase {
     override class func tearDown() {
         Disk.drain()
         if let world = Store.world {
-            let suite = "com.officecommun.search.test.\(world)"
+            let suite = "io.szero.manifold.test.\(world)"
             UserDefaults.standard.removePersistentDomain(forName: suite)
             try? FileManager.default.removeItem(at: Store.folder)
         }
@@ -44,7 +44,7 @@ final class DownloadLifecycleTests: XCTestCase {
         browser.loot.forgetAll()
 
         downloadFolder = FileManager.default.temporaryDirectory
-            .appendingPathComponent("Search-download-ui-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("Manifold-download-ui-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: downloadFolder, withIntermediateDirectories: true)
         browser.prefs.downloads = downloadFolder
         browser.prefs.asksWhereToSave = false

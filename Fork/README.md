@@ -40,15 +40,14 @@ and how to bring in upstream's updates.
   has its own switch in Settings › Spaces & Pins, on by default. With the column showing icons only, the single
   space button stays.
 
-- **Manifold's name and icon.** `./build.sh` names the app Manifold (Manifold-<branch> for a dev build), in the
-  Dock, the menu bar, ⌘Tab and Finder. The icon is a lowercase m drawn as one ribbon, `Fork/mark.svg`, on upstream's
-  plate and in its colours, Dark and Tinted Dock styles included. The bundle id and the data folders stay
-  Search's, so your settings, tabs and sign-ins carry over. Inside the app, the mark and the name are Manifold's
-  where you see them daily: the window's title, Quit, Settings › About, the default-browser lines and the welcome.
-  Send Feedback opens a new issue on this fork's GitHub instead of writing to Office Commun, and Settings no
-  longer shows "Install updates on its own". The rest of the app's text still says Search. Renaming all of its
-  about 160 strings would turn upstream's edits to those lines into merge conflicts.
-
+- **Manifold's name, icon and identity.** The app is `Manifold.app`, with the bundle id `io.szero.manifold`, its
+  data in `~/Library/Application Support/Manifold`, and Manifold's name everywhere the app names itself: menus,
+  Settings, messages, the AppleScript dictionary. The icon is a lowercase m drawn as one ribbon, `Fork/mark.svg`.
+  Builds are signed with your Apple Development certificate (your team in Xcode) when there is no Developer ID, so
+  each build has the same identity for the keychain and macOS's privacy settings. Search as a verb or a feature
+  ("Search Tabs…", "Search with Google") keeps its word, and so do the parts that check upstream's own signed
+  files. The rename is not a hand edit: `Fork/rebrand.py` holds it as rules (see "Keeping up with upstream").
+  `Fork/migrate-from-search.sh` copies a Search's data, settings, sign-ins and cookies to Manifold's places, once.
 - **Handoff from Safari on iPhone and iPad.** A page open in Safari on your iPhone shows at the end of the Mac's
   Dock under Manifold, when Manifold is the Mac's default browser, and a click opens it here as a link from another
   app would. Both devices need the same Apple Account, Bluetooth and Wi-Fi on, and Handoff allowed (Mac: System
@@ -103,7 +102,8 @@ tests are `Tests/SearchTests/ImportZenTests.swift` and `Tests/zen_spaces.py`. Up
 - for the name and mark inside the app (`Brand.swift`): two lines in `Design.swift` for the mark, and about ten
   strings in `App.swift`, `WindowTitle.swift`, `Settings.swift` and `Welcome.swift`; one line in `Links.swift` for
   feedback, and two in `SettingsIndex.swift` that hide the install switch;
-- `build.sh`: one plist key, NSUserActivityTypes, for Handoff (`Handoff.swift`);
+- `build.sh`: one plist key, NSUserActivityTypes, for Handoff (`Handoff.swift`), and five lines that sign with the
+  Apple Development certificate when there is no Developer ID;
 - for pins at the top (`SharedPins.swift`): three lines in `reconcilePins` in `Browser.swift` (a shared pin's tab
   taken from another space, and left open while another space holds it), the same check in the two lines of
   `Spaces.swift` that put a space's row away, one line in `Links.swift` that starts it at launch, and its switch in
@@ -121,19 +121,41 @@ tests are `Tests/SearchTests/ImportZenTests.swift` and `Tests/zen_spaces.py`. Up
   `Spaces.swift`, its switch in `SettingsIndex.swift` and `Settings.swift`, and one line in `Bench.swift` that
   hands the fork's own test actions to it.
 
+The rename from Search to Manifold is the exception: it touches about 400 lines of upstream's files, and it is
+kept as rules in `Fork/rebrand.py` rather than as edits. After a merge, the script settles every conflict where
+our side is upstream's old line renamed, by taking upstream's new line and renaming it, and renames whatever new
+lines upstream added. Conflicts that are more than the rename are left for a person.
+
 To bring in upstream's changes, when Manifold says upstream released a new version:
 
 ```
 git fetch upstream
-git merge upstream/main
-swift build && swift test --filter "ImportZen|ManifoldUpdates|Handoff" \
-  && ./build.sh && python3 Tests/space_strip.py && python3 Tests/shared_pages.py && python3 Tests/shared_pins.py \
+git merge upstream/main               # stops if anything conflicts
+python3 Fork/rebrand.py resolve       # settles the conflicts that are only the rename
+python3 Fork/rebrand.py apply         # renames what upstream added
+git status                            # what is left is a real conflict: fix it by hand
+swift build && swift test && ./build.sh \
+  && python3 Tests/space_strip.py && python3 Tests/shared_pages.py && python3 Tests/shared_pins.py \
   && python3 Tests/zen_spaces.py
+git commit
 ```
 
-Then quit the browser and run `./build.sh`. It rebuilds `build/Search.app` in place, and the next launch is the new
-version. Your tabs, settings and sign-ins live outside the app, so they stay. Upstream's test scripts also launch
-`build/Search.app`, each in a hidden test world of its own, so they never touch your browser's data.
+`python3 Fork/rebrand.py check` shows what `apply` would change, and `python3 Fork/rebrand.py test` runs the rules'
+own checks. A new string upstream adds where Search is the verb ("Search the page") would be renamed by mistake;
+the `check` output is where that shows, and a pattern in `KEEP` is the fix.
+
+## Installing and updating your own copy
+
+`./build.sh` makes `build/Manifold.app`; the browser you use is a copy of it in `/Applications`. To install or
+update it, quit Manifold, then:
+
+```
+ditto build/Manifold.app /Applications/Manifold.app
+```
+
+Your tabs, settings and sign-ins live outside the app, so they stay. The tests launch `build/Manifold.app`, each in
+a hidden test world of its own, and never touch your browser or its data. Choose Manifold once in System Settings ›
+Desktop & Dock › Default web browser.
 
 ## Limitations
 

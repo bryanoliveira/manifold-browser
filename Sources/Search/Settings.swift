@@ -723,7 +723,7 @@ struct SettingsPanel: View {
                 guard on else { prefs.fillsContacts = false; return }
                 Task { @MainActor in
                     guard await MeCard.shared.ask() else {
-                        browser.announce("Search may not read Contacts: System Settings › Privacy & Security › Contacts")
+                        browser.announce("Manifold may not read Contacts: System Settings › Privacy & Security › Contacts")
                         return
                     }
                     guard await MeCard.shared.reload() else {
@@ -793,7 +793,7 @@ struct SettingsPanel: View {
         case "shield":
             if let trouble = shield.trouble {
                 Rule()
-                Line(trouble, "Nothing is being blocked until this clears. Try again, or restart Search") {
+                Line(trouble, "Nothing is being blocked until this clears. Try again, or restart Manifold") {
                     Pill("Try again") { shield.compile() }
                 }
                 .under()
@@ -986,7 +986,7 @@ struct SettingsPanel: View {
     /// Says so when a password manager extension has taken the saving over.
     private var savingDetail: String {
         if #available(macOS 15.4, *), let name = Extensions.shared.passwordSavingTakenBy {
-            return "\(name) does the saving; it asked Search not to offer"
+            return "\(name) does the saving; it asked Manifold not to offer"
         }
         return "Asked once per site, never again for a site you refuse"
     }
@@ -1023,9 +1023,9 @@ struct SettingsPanel: View {
     private var versionTitle: String {
         switch updater.stage {
         case .none: return "Updates"
-        case .fetching(let next): return "Search \(next.version) is downloading…"
-        case .ready(let next): return "Search \(next.version) is ready"
-        case .offered(let next), .waiting(let next): return "Search \(next.version) is out"
+        case .fetching(let next): return "Manifold \(next.version) is downloading…"
+        case .ready(let next): return "Manifold \(next.version) is ready"
+        case .offered(let next), .waiting(let next): return "Manifold \(next.version) is out"
         }
     }
 
@@ -1037,7 +1037,7 @@ struct SettingsPanel: View {
         case .fetching(let next):
             return next.notes ?? "Quietly, in the background. Nothing you have set is touched"
         case .ready(let next):
-            return next.notes ?? "It's there the next time you open Search"
+            return next.notes ?? "It's there the next time you open Manifold"
         case .offered(let next):
             return next.notes ?? "Open the disk image, the same as the first time"
         case .waiting(let next):

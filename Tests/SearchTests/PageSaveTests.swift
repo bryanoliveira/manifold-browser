@@ -52,7 +52,7 @@ final class PageSaveTests: XCTestCase {
     }
 
     private func save(_ tab: Search.Tab, in browser: Browser) async throws -> URL {
-        let file = FileManager.default.temporaryDirectory.appendingPathComponent("Search-Page-\(UUID().uuidString).webarchive")
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent("Manifold-Page-\(UUID().uuidString).webarchive")
         let worked = await withCheckedContinuation { continuation in
             browser.savePage(tab, to: file) { continuation.resume(returning: $0) }
         }

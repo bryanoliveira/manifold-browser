@@ -98,7 +98,7 @@ struct ProxySettingsValue: Codable, Equatable {
 /// value, a log line or an error. A test run keeps it in memory and leaves
 /// the real keychain alone.
 enum ProxySecret {
-    private static let service = "com.officecommun.search.proxy"
+    private static let service = "io.szero.manifold.proxy"
     private static let account = "global"
     /// A test run's, gone when it quits, as AIKeys keeps its own.
     nonisolated(unsafe) private static var rehearsal: String?
@@ -131,12 +131,12 @@ enum ProxySecret {
         item[kSecValueData as String] = Data(password.utf8)
         item[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         item[kSecAttrSynchronizable as String] = false
-        item[kSecAttrLabel as String] = "Search — proxy password"
+        item[kSecAttrLabel as String] = "Manifold — proxy password"
         let status = SecItemAdd(item as CFDictionary, nil)
         guard status == errSecSuccess else {
             throw NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: [
                 NSLocalizedDescriptionKey: status == errSecMissingEntitlement
-                    ? "This copy of Search can't keep a password in the keychain."
+                    ? "This copy of Manifold can't keep a password in the keychain."
                     : "The proxy password couldn't be kept in the keychain (\(status)).",
             ])
         }
@@ -323,9 +323,9 @@ struct ProxySettings: View {
 
     private var note: String {
         """
-        What Search fetches goes through it: pages, favicons, search \
+        What Manifold fetches goes through it: pages, favicons, search \
         suggestions, copied pictures, extensions and the Web Store, the AI \
-        add-on and Search's own updates. A video call is the exception: \
+        add-on and Manifold's own updates. A video call is the exception: \
         WebRTC sends its own traffic over UDP, which a proxy tunnel doesn't \
         carry, so a call can still show a site your address. This Mac and \
         .local names stay direct, so a local server still opens; a router \
@@ -337,7 +337,7 @@ struct ProxySettings: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Line("Send everything through a proxy", draft.mode == .system ? "Off: Search follows the Mac's own network settings." : note) {
+            Line("Send everything through a proxy", draft.mode == .system ? "Off: Manifold follows the Mac's own network settings." : note) {
                 Picker("Proxy", selection: $draft.mode) {
                     ForEach(ProxySettingsValue.Mode.allCases) { Text($0.title).tag($0) }
                 }
