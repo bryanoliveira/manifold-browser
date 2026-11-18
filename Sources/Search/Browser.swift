@@ -48,6 +48,7 @@ final class Browser: NSObject, ObservableObject {
             if let selectionAnchor, !tabs.contains(where: { $0.id == selectionAnchor }) {
                 self.selectionAnchor = nil
             }
+            SharedPages.rowChanged(self)  // Manifold
         }
     }
     /// Tabs picked with Command or Shift. The active page remains where it is.
@@ -55,10 +56,10 @@ final class Browser: NSObject, ObservableObject {
     private var selectionAnchor: Tab.ID?
     @Published private(set) var splits: [TabSplit] = [] {
         // A pair taken apart can leave a peek's tab off screen.
-        didSet { if peekTab != nil { followPeek() } }
+        didSet { if peekTab != nil { followPeek() }; SharedPages.rowChanged(self) }
     }
     /// Named tab sections in the current space, in display order.
-    @Published var tabGroups: [TabGroup] = []
+    @Published var tabGroups: [TabGroup] = [] { didSet { SharedPages.rowChanged(self) } }  // Manifold
     @Published var editingGroupID: UUID?
     /// The tab on screen before the last change, and when it changed: a tab
     /// in the column opens as the button goes down (#625), so a tab carried
@@ -2870,6 +2871,7 @@ final class Browser: NSObject, ObservableObject {
     /// The pins are every window's (see Pins.swift): a window new to this
     /// space has them too, before an empty tab.
     func restoreSession() {
+        if SharedPages.join(self) { return }  // Manifold: another window's row for this space
         let saved = readRow(spaceID)
         tabGroups = (saved.groups ?? []).filter { group in
             saved.tabs.contains { $0.groupID == group.id }
@@ -3658,10 +3660,11 @@ final class Browser: NSObject, ObservableObject {
     /// A space's row as saved: the session files' for the oldest window,
     /// this window's own record for any other.
     func readRow(_ space: UUID) -> Session.Shape {
-        usesFiles ? Session.read(space: space) : (record.rows[space.uuidString] ?? Session.Shape(tabs: [], active: 0))
+        SharedPages.readRow(self, space) ?? (usesFiles ? Session.read(space: space) : (record.rows[space.uuidString] ?? Session.Shape(tabs: [], active: 0)))
     }
 
     func writeRow(_ space: UUID, _ shape: Session.Shape, now: Bool) {
+        if SharedPages.writesFiles(self) { Session.write(now: now, space: space, shape) }  // Manifold
         if usesFiles {
             Session.write(now: now, space: space, shape)
         } else {
@@ -3734,7 +3737,7 @@ final class Browser: NSObject, ObservableObject {
         if peekTab != nil { closePeek() }
         closeSidePanel()
         SidePanelPages.shared.forget(in: self)
-        for tab in tabs + parkedTabs { tab.close() }
+        for tab in tabs + parkedTabs where !SharedPages.heldElsewhere(tab, by: self) { tab.close() }
         parked = [:]
         splits = []
         tabs = []
@@ -6148,6 +6151,7 @@ final class Browser: NSObject, ObservableObject {
     /// on screen: tabs with an address and no page yet, which cost next to
     /// nothing until one is looked at (see Spaces.swift).
     func loadRow(_ space: UUID) -> Parked {
+        if let live = SharedPages.live(space, for: self) { return live }  // Manifold
         let saved = readRow(space)
         var restored = restoreRow(saved, space: space, groups: saved.groups ?? [])
         // As restoreSession has it: nothing in front after a fresh start, so

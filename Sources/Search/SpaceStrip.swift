@@ -51,23 +51,6 @@ enum SpaceStrip {
         return CGFloat(browser.everySpace.count - replaced) * (cell + gap)
     }
 
-    /// The bench's `space` actions of the fork's own, on a test run:
-    /// "profile" moves the space on screen to the profile named `name`;
-    /// "strip" turns the row on or off (`on`).
-    static func bench(_ request: [String: Any], _ browser: Browser) {
-        guard Store.testing else { return }
-        switch request["action"] as? String {
-        case "profile":
-            guard let name = request["name"] as? String,
-                  let profile = Profiles.shared.list.first(where: { $0.name == name }) else { return }
-            browser.moveSpace(browser.spaceID, toProfile: profile.id)
-        case "strip":
-            on = request["on"] as? Bool ?? true
-            browser.prefs.objectWillChange.send()
-        default: break
-        }
-    }
-
     // MARK: - a space's profile
 
     /// The Profile item in a space's menu: the profiles, the space's own

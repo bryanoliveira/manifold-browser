@@ -3800,7 +3800,7 @@ final class Bench {
                     answer(["error": "no such space in the menu"]); return
                 }
                 menu.performActionForItem(at: at)
-            default: SpaceStrip.bench(request, browser)  // Manifold
+            default: if let out = ForkBench.space(request, browser) { answer(out); return }  // Manifold
             }
             let out: [String: Any] = [
                 // The space's menu as it would open: section headers and spaces,

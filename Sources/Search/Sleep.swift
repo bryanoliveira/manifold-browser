@@ -175,6 +175,7 @@ extension Browser {
     func awake(because tab: Tab) -> String? {
         // With the last window closed (`shut`) nothing is on screen.
         if !shut, visibleTabIDs.contains(tab.id) { return "on screen" }
+        if SharedPages.shownElsewhere(tab, by: self) { return "on screen in another window" }  // Manifold
         if tab.pin != nil, let kept = pinKept(tab) { return kept }
         if tab.bench { return "a bench tab" }
         if tab.isBlank { return "blank" }

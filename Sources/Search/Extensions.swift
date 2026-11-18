@@ -453,7 +453,7 @@ final class Extensions: NSObject, ObservableObject {
         let key = ObjectIdentifier(browser)
         let order = orders[key] ?? []
         let oldOrders = visibleOrders(order)
-        let now = tabs.filter(seen)
+        let now = tabs.filter(seen).filter { SharedPages.isHome(browser, of: $0) }  // Manifold
         let ids = now.map(\.id)
         let gone = order.filter { !ids.contains($0) }
         for id in gone {

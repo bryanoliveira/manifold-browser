@@ -559,6 +559,8 @@ struct SettingsPanel: View {
     @ViewBuilder
     private func tabsControl(_ id: String) -> some View {
         switch id {
+        case SharedPages.key:  // Manifold
+            Switch(on: Binding(get: { SharedPages.wanted }, set: { SharedPages.wanted = $0; prefs.objectWillChange.send() }))
         case "tabs.newPlace":
             Picker("New tab position", selection: $prefs.newTabPlace) {
                 Text("After current").tag(NewTabPlace.next)

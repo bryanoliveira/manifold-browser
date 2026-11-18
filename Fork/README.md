@@ -17,6 +17,13 @@ and how to bring in upstream's updates.
   Upstream compares build times, and any build made here after upstream's release would hide that release. The
   Settings switch "Install updates on its own" has no effect in Manifold.
 
+- **One page in every window.** Turned on in Settings › Tabs › One page in every window, from the next launch. A
+  space's tabs belong to the space, so two windows showing a space show the same tabs, and each page is in memory
+  once. The window in front holds a page live. Another window showing the same page draws a picture of it, four
+  times a second, and takes the page itself, with no reload, when it comes to the front. Split View's pages do the
+  same. Opening, closing, moving and grouping tabs in one window happen in the other. Closing a window keeps its
+  tabs with their space, as in Arc. A window that comes back to a space finds what was opened there meanwhile. Off,
+  each window holds its own tabs, as in upstream.
 - **Spaces at the foot of the column, as in Arc and Zen.** Every space is an icon in a row under the tabs, and
   one click goes to it, whichever profile it is in. A right-click opens the space's menu. The row stands in for
   the single space button and the profile badge. A space's profile is chosen in its own menu, under Profile, as in
@@ -42,15 +49,12 @@ and how to bring in upstream's updates.
 
 ## Roadmap
 
-In order. Each item says what upstream already has or plans in the same area, so the fork doesn't build it twice.
-Upstream's own list is [ROADMAP.md](../ROADMAP.md).
+Everything planned so far is built. Possible next steps, none started:
 
-1. **One page in several windows at once, held in memory once.** Today a tab belongs to one window. Upstream plans
-   "Tabs shared across windows" ([#417](https://github.com/driceroland/Search/issues/417), under Later): a space's
-   tabs shown in any window, with a stand-in wherever the tab is open in another window, as Arc does. This item
-   goes further, with the page live in each window. A web view can be drawn in only one window at a time. So the
-   second window either shows a live picture of the first, or the page moves to whichever window you are using.
-   That choice comes first.
+- one page for a pin kept in every space, where those spaces share their sign-ins (today each space holds its own
+  copy of such a pin, as upstream has it);
+- Handoff to the iPhone, which Apple allows only for apps signed with a developer team.
+
 ## How Zen maps onto Search
 
 Zen keeps its spaces, tabs and folders in `zen-sessions.jsonlz4`, inside each Firefox profile folder. That file is
@@ -94,6 +98,14 @@ tests are `Tests/SearchTests/ImportZenTests.swift` and `Tests/zen_spaces.py`. Up
   strings in `App.swift`, `WindowTitle.swift`, `Settings.swift` and `Welcome.swift`; one line in `Links.swift` for
   feedback, and two in `SettingsIndex.swift` that hide the install switch;
 - `build.sh`: one plist key, NSUserActivityTypes, for Handoff (`Handoff.swift`);
+- for one page in every window (`SharedPages.swift`): in `Browser.swift`, the row's three setters tell it of a
+  change, `restoreSession` and `loadRow` take the row another window has, `readRow` and `writeRow` use the space's
+  file, and closing a window leaves tabs another window holds; in `Spaces.swift`, coming back to a space takes the
+  live row, and putting a space away leaves tabs held elsewhere; `Stage.swift` asks before taking a page from
+  another window and keeps the picture; `Windows.swift` tells it which window came to the front; `Sleep.swift` and
+  `Closing.swift` keep awake and open a tab another window shows; `Extensions.swift` tells extensions of a tab in
+  one window; its switch is in `SettingsIndex.swift` and `Settings.swift`. Every hook does nothing with the switch
+  off;
 - for the row of spaces (`SpaceStrip.swift`): the foot of the column in `Side.swift` (the row in place of the
   space button and the badge, and the room it takes from pinned extensions), the space menu's Profile item in
   `Spaces.swift`, its switch in `SettingsIndex.swift` and `Settings.swift`, and one line in `Bench.swift` that
@@ -104,12 +116,21 @@ To bring in upstream's changes, when Manifold says upstream released a new versi
 ```
 git fetch upstream
 git merge upstream/main
-swift build && swift test --filter "ImportZen|ManifoldUpdates" && python3 Tests/space_strip.py
+swift build && swift test --filter "ImportZen|ManifoldUpdates|Handoff" \
+  && ./build.sh && python3 Tests/space_strip.py && python3 Tests/shared_pages.py && python3 Tests/zen_spaces.py
 ```
 
 Then quit the browser and run `./build.sh`. It rebuilds `build/Search.app` in place, and the next launch is the new
 version. Your tabs, settings and sign-ins live outside the app, so they stay. Upstream's test scripts also launch
 `build/Search.app`, each in a hidden test world of its own, so they never touch your browser's data.
+
+## Limitations
+
+- One page in every window takes effect at the next launch, both when turned on and off.
+- A click on a page's picture brings its window to the front. The page takes the click after that.
+- A picture is redrawn four times a second, so a video seen in it moves in steps.
+- Handoff from the iPhone was built from Apple's documentation and checked as far as the app's own side goes. It
+  has not been tried with a real iPhone yet.
 
 ## Releasing
 

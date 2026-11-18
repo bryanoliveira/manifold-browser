@@ -38,6 +38,7 @@ extension Browser {
     /// it. The clock is the caller's business, as with `awake(because:)`.
     func stays(because tab: Tab) -> String? {
         if visibleTabIDs.contains(tab.id) { return "on screen" }
+        if SharedPages.shownElsewhere(tab, by: self) { return "on screen in another window" }  // Manifold
         if tab.pin != nil { return "pinned" }
         if tab.name != nil { return "named" }
         if tab.groupID != nil { return "in a group" }

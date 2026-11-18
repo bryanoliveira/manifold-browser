@@ -207,6 +207,11 @@ enum SettingsIndex {
               keys: [Motion.instantKey], words: ["animations", "motion", "instant", "faster", "reduce motion", "transitions"]),
 
         // Tabs
+        // Manifold (SharedPages.swift).
+        .init(id: SharedPages.key, group: "memory", icon: "macwindow.on.rectangle",
+              title: "One page in every window", detail: "A space's tabs are the same in every window, each page in memory once",
+              more: "The window in front shows a page live; another window showing it draws its picture until you go to it. Closing a window keeps its tabs with their space. From the next launch.",
+              keys: [SharedPages.key], words: ["windows", "shared tabs", "memory", "arc", "same page", "two windows"]),
         .init(id: "tabs.newPlace", group: "newtabs", icon: "arrow.right.to.line",
               title: "New tab position", detail: "Where a link or ⌘T's new tab goes in the row",
               more: "After current puts a link you ⌘-click right after its page; ⌘T's new tab and a page a link opens in front go at the end. Pins stay first; a link from a group stays in it.",

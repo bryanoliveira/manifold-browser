@@ -477,6 +477,7 @@ final class StageView: NSView {
     private func clearUnwanted() {
         let docked = inspecting
         for view in subviews where view !== wanted && !(docked && Self.isInspector(view)) {
+            if SharedPages.keeps(view, for: wanted) { continue }  // Manifold: its picture
             // Another tab in front while this page fills the screen: WebKit
             // brings the page home to its placeholder, so that stays, under
             // the tab in front, and so does the page on its way back.
@@ -524,6 +525,8 @@ final class StageView: NSView {
             }, context: Unmanaged.passUnretained(wanted).toOpaque())
         }
         if wanted.superview !== self {
+            // Manifold: held live by the window in front; a picture of it here.
+            guard SharedPages.mayTake(wanted, into: self) else { return }
             // A web view can have only one superview, so taking it back is how
             // it is taken back.
             wanted.removeFromSuperview()

@@ -400,6 +400,7 @@ extension Browser {
         // profile's last space, the one a window of it opens at.
         if Browsers.primary === self { Store.settings.set(id.uuidString, forKey: "space.current") }
         Store.settings.set(id.uuidString, forKey: "space.current.\(profileID.uuidString)")
+        if let live = SharedPages.fresh(id, for: self) { parked[id] = live }  // Manifold
         if let back = parked.removeValue(forKey: id), !back.tabs.isEmpty {
             // Nothing in front there (a fresh start, see Session.startFresh):
             // an empty tab beside its pins, as at launch, not the first pin.
@@ -568,7 +569,7 @@ extension Browser {
     /// case they are turned on again.
     func leaveSpaces() {
         enter(homeSpaceID)
-        for (_, row) in parked { for tab in row.tabs { tab.close() } }
+        for (_, row) in parked { for tab in row.tabs where !SharedPages.heldElsewhere(tab, by: self) { tab.close() } }
         parked = [:]
     }
 }
@@ -963,7 +964,7 @@ extension Browser {
         guard let row = parked[id] else { return }
         if let floating, row.tabs.contains(where: { $0.id == floating }) { land(covering: false) }
         if let pictured, row.tabs.contains(where: { $0.id == pictured }) { unpicture() }
-        for tab in parked.removeValue(forKey: id)?.tabs ?? [] { tab.close() }
+        for tab in parked.removeValue(forKey: id)?.tabs ?? [] where !SharedPages.heldElsewhere(tab, by: self) { tab.close() }
     }
 
     /// A space deleted in another window: this window's row there goes.

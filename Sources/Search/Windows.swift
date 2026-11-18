@@ -133,6 +133,7 @@ enum Browsers {
             return
         }
         register(browser)
+        SharedPages.becameKey(browser)  // Manifold
         browser.shut = false
         Front.shared.set(browser)
         Spaces.current = browser.spaceID
