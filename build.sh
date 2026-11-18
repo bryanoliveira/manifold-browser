@@ -243,6 +243,10 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   </array>
   <!-- A browser goes wherever it is pointed, including at http sites and at
        whatever is running on localhost. -->
+  <!-- Manifold: pages handed off from Safari on an iPhone or iPad
+       (Handoff.swift). -->
+  <key>NSUserActivityTypes</key>
+  <array><string>NSUserActivityTypeBrowsingWeb</string></array>
   <key>NSAppTransportSecurity</key>
   <dict><key>NSAllowsArbitraryLoads</key><true/></dict>
   <!-- A browser is asked for these by the pages it shows, not by itself. macOS

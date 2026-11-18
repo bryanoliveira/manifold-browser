@@ -34,6 +34,12 @@ and how to bring in upstream's updates.
   longer shows "Install updates on its own". The rest of the app's text still says Search. Renaming all of its
   about 160 strings would turn upstream's edits to those lines into merge conflicts.
 
+- **Handoff from Safari on iPhone and iPad.** A page open in Safari on your iPhone shows at the end of the Mac's
+  Dock under Manifold, when Manifold is the Mac's default browser, and a click opens it here as a link from another
+  app would. Both devices need the same Apple Account, Bluetooth and Wi-Fi on, and Handoff allowed (Mac: System
+  Settings › General › AirDrop & Handoff; iPhone: Settings › General › AirPlay & Continuity). Apple's iCloud sync
+  of tabs and bookmarks is closed to other apps; Handoff is the part of it a browser can take.
+
 ## Roadmap
 
 In order. Each item says what upstream already has or plans in the same area, so the fork doesn't build it twice.
@@ -45,12 +51,6 @@ Upstream's own list is [ROADMAP.md](../ROADMAP.md).
    goes further, with the page live in each window. A web view can be drawn in only one window at a time. So the
    second window either shows a live picture of the first, or the page moves to whichever window you are using.
    That choice comes first.
-2. **Sync with Safari on iPhone and iPad.** Upstream keeps sync between Macs only. Since 17 November 2026,
-   `Sync.swift` writes spaces, pins, bookmarks and settings into a folder you choose, such as one in iCloud Drive.
-   Upstream lists accounts and sync across devices under "Not on the list". Safari syncs your devices through
-   Apple's own iCloud service, which other apps can't use. What a Mac app can reach is Safari's files on this Mac,
-   with Full Disk Access. Those hold Safari's bookmarks and a copy of the tabs open on your other devices. Which way
-   this can work, and whether Safari keeps what another app writes there, is the first thing to find out.
 ## How Zen maps onto Search
 
 Zen keeps its spaces, tabs and folders in `zen-sessions.jsonlz4`, inside each Firefox profile folder. That file is
@@ -93,6 +93,7 @@ tests are `Tests/SearchTests/ImportZenTests.swift` and `Tests/zen_spaces.py`. Up
 - for the name and mark inside the app (`Brand.swift`): two lines in `Design.swift` for the mark, and about ten
   strings in `App.swift`, `WindowTitle.swift`, `Settings.swift` and `Welcome.swift`; one line in `Links.swift` for
   feedback, and two in `SettingsIndex.swift` that hide the install switch;
+- `build.sh`: one plist key, NSUserActivityTypes, for Handoff (`Handoff.swift`);
 - for the row of spaces (`SpaceStrip.swift`): the foot of the column in `Side.swift` (the row in place of the
   space button and the badge, and the room it takes from pinned extensions), the space menu's Profile item in
   `Spaces.swift`, its switch in `SettingsIndex.swift` and `Settings.swift`, and one line in `Bench.swift` that
