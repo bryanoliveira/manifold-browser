@@ -6,9 +6,9 @@
 #   Fork/migrate-from-search.sh          copy what Manifold doesn't have yet
 #
 # Copied, never moved: Search's data stays where it is, as it was, until you
-# remove it (the last lines this prints say where). A part Manifold already
-# has is left alone, so running this again changes nothing. Neither browser
-# may be open while it runs: their files would be copied half written.
+# remove it (the last lines this prints say where). Once Manifold has data of
+# its own, running this again changes nothing. Neither browser may be open
+# while it runs: their files would be copied half written.
 #
 # What goes where:
 #   ~/Library/Application Support/Search    → …/Manifold         tabs, spaces, pins, history, bookmarks
@@ -30,16 +30,29 @@ for app in Search Manifold; do
   fi
 done
 
+# Manifold has run for real once its own folder is there: then everything
+# was copied before, or Manifold has data of its own, and nothing is touched.
+# Before that, what is at Manifold's places came from test runs, which use
+# the bundle id but folders of their own ("Manifold (name)"): it is moved
+# aside, never deleted, and Search's copied in its place.
+if [ -e "$LIB/Application Support/Manifold" ]; then
+  echo "Manifold already has its own data ($LIB/Application Support/Manifold): nothing copied"
+  exit 0
+fi
+STAMP="$(date +%Y%m%d-%H%M%S)"
+
 copy() {
   local from="$1" to="$2" what="$3"
   if [ ! -e "$from" ]; then
     echo "nothing to copy: $what ($from)"
-  elif [ -e "$to" ]; then
-    echo "already there, left alone: $what ($to)"
-  else
-    ditto "$from" "$to"
-    echo "copied: $what, $(du -sh "$to" | cut -f1)"
+    return
   fi
+  if [ -e "$to" ]; then
+    mv "$to" "$to.test-runs-$STAMP"
+    echo "moved aside, from test runs: $to.test-runs-$STAMP"
+  fi
+  ditto "$from" "$to"
+  echo "copied: $what, $(du -sh "$to" | cut -f1)"
 }
 
 copy "$LIB/Application Support/Search" "$LIB/Application Support/Manifold" "tabs, spaces, pins, history and bookmarks"
@@ -48,10 +61,9 @@ copy "$LIB/HTTPStorages/$OLD" "$LIB/HTTPStorages/$NEW" "cookies"
 copy "$LIB/HTTPStorages/$OLD.binarycookies" "$LIB/HTTPStorages/$NEW.binarycookies" "cookies (file)"
 
 # Settings go through macOS's own preferences, so nothing it holds in memory
-# is missed or overwritten.
-if defaults export "$NEW" - 2>/dev/null | grep -q "<key>"; then
-  echo "already there, left alone: settings ($NEW)"
-elif defaults export "$OLD" - >/dev/null 2>&1; then
+# is missed. Importing replaces the whole domain: what test runs wrote there
+# (their windows' frames) goes.
+if defaults export "$OLD" - >/dev/null 2>&1; then
   defaults export "$OLD" - | defaults import "$NEW" -
   echo "copied: settings, $(defaults read "$NEW" | grep -c ' = ') entries"
 else
